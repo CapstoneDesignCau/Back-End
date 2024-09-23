@@ -42,8 +42,8 @@ public class UserController {
     public CustomApiResponse<Boolean> checkNicknameDuplicate(
             @RequestParam String nickname
     ) {
-        Boolean isDuplicate = userService.isNicknameDuplicate(nickname);
-        return CustomApiResponse.of(SuccessStatus.USER_OK, isDuplicate);
+        Boolean isNicknameDuplicate = userService.isNicknameDuplicate(nickname);
+        return CustomApiResponse.of(SuccessStatus.USER_OK, isNicknameDuplicate);
     }
 
     @Operation(summary = "이메일 중복 확인", description = "이메일 중복 확인 API")
@@ -51,7 +51,7 @@ public class UserController {
     public CustomApiResponse<Boolean> checkEmailDuplicate(
             @RequestParam String email
     ) {
-        Boolean isDuplicate = userService.isEmailDuplicate(email);
-        return CustomApiResponse.of(SuccessStatus.USER_OK, isDuplicate);
+        Boolean isEmailDuplicate = userService.isEmailDuplicate(email);
+        return CustomApiResponse.of(SuccessStatus.USER_OK, isEmailDuplicate);
     }
 }
