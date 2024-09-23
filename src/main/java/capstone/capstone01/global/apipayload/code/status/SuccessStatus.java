@@ -10,7 +10,8 @@ import org.springframework.http.HttpStatus;
 @AllArgsConstructor
 public enum SuccessStatus implements BaseCode {
 
-    MEMBER_OK(HttpStatus.OK, "MEMBER_2000", "Member 관련 요청이 성공적으로 수행되었습니다."),
+    USER_OK(HttpStatus.OK, "USER_2000", "USER 관련 요청이 성공적으로 수행되었습니다."),
+    USER_CREATED(HttpStatus.CREATED,"USER_2001", "USER 관련 요청이 성공적으로 생성되었습니다."),
     POST_OK(HttpStatus.OK, "POST_2000", "Post 관련 요청이 성공적으로 수행되었습니다.");
 
     private final HttpStatus httpStatus;

@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 @Getter
 @AllArgsConstructor
 @JsonPropertyOrder({"isSuccess", "code", "message", "result"})
-public class ApiResponse<T> {
+public class CustomApiResponse<T> {
 
     private final Boolean isSuccess;
 
@@ -25,16 +25,16 @@ public class ApiResponse<T> {
     private T result;
 
     // 성공한 경우 응답 생성
-    public static <T> ApiResponse<T> onSuccess(SuccessStatus status, T result){
-        return new ApiResponse<>(true, status.getCode(), status.getMessage(),LocalDateTime.now(), result);
+    public static <T> CustomApiResponse<T> onSuccess(SuccessStatus status, T result){
+        return new CustomApiResponse<>(true, status.getCode(), status.getMessage(),LocalDateTime.now(), result);
     }
 
-    public static <T> ApiResponse<T> of(BaseCode code, T result){
-        return new ApiResponse<>(true, code.getReasonHttpStatus().getCode() , code.getReasonHttpStatus().getMessage(),LocalDateTime.now(), result);
+    public static <T> CustomApiResponse<T> of(BaseCode code, T result){
+        return new CustomApiResponse<>(true, code.getReasonHttpStatus().getCode() , code.getReasonHttpStatus().getMessage(),LocalDateTime.now(), result);
     }
 
     // 실패한 경우 응답 생성
-    public static <T> ApiResponse<T> onFailure(String code, String message, T data){
-        return new ApiResponse<>(false, code, message, LocalDateTime.now(), data);
+    public static <T> CustomApiResponse<T> onFailure(String code, String message, T data){
+        return new CustomApiResponse<>(false, code, message, LocalDateTime.now(), data);
     }
 }
