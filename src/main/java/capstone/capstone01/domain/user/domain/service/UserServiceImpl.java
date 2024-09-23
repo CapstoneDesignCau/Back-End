@@ -59,7 +59,7 @@ public class UserServiceImpl implements UserService {
             throw new UserException(ErrorStatus.USER_ALREADY_EXISTS);
         }
         if (isNicknameDuplicate(nickname)) {
-            throw new UserException(ErrorStatus.USER_NAME_NULL);
+            throw new UserException(ErrorStatus.USER_NICKNAME_EXISTS);
         }
     }
 
@@ -67,4 +67,5 @@ public class UserServiceImpl implements UserService {
         return userRepository.findByEmail(email)
                 .orElseThrow(() -> new UserException(ErrorStatus.USER_NOT_FOUND));
     }
+
 }
