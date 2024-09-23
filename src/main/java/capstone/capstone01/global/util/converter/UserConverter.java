@@ -3,6 +3,7 @@ package capstone.capstone01.global.util.converter;
 import capstone.capstone01.domain.user.domain.User;
 import capstone.capstone01.domain.user.domain.dto.request.UserSignUpRequestDto;
 import capstone.capstone01.domain.user.domain.dto.response.LoginResponseDto;
+import capstone.capstone01.domain.user.domain.enums.UserRole;
 
 public class UserConverter {
 
@@ -14,6 +15,7 @@ public class UserConverter {
                 .nickname(requestDto.getNickname())
                 .gender(requestDto.getGender())
                 .birthday(requestDto.getBirthday())
+                .role(UserRole.USER)
                 .build();
     }
 

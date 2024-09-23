@@ -45,10 +45,12 @@ public class User extends BaseEntity {
 
     @Column(name = "role", nullable = false)
     @Enumerated(EnumType.STRING)
+    @Builder.Default
     private UserRole role = UserRole.USER;
 
     @Column(name = "userState", nullable = false)
     @Enumerated(EnumType.STRING)
+    @Builder.Default
     private UserState userState = UserState.ACTIVE;
 
     public void updateNickname(final String newNickname) {
