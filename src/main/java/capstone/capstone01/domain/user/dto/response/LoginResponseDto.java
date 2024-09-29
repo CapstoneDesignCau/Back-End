@@ -1,4 +1,4 @@
-package capstone.capstone01.domain.user.domain.dto.response;
+package capstone.capstone01.domain.user.dto.response;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Builder;
