@@ -1,4 +1,4 @@
-package capstone.capstone01.domain.user.domain.dto.request;
+package capstone.capstone01.domain.user.dto.request;
 
 import capstone.capstone01.domain.user.domain.enums.Gender;
 import io.swagger.v3.oas.annotations.media.Schema;

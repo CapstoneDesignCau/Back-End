@@ -1,17 +1,17 @@
-package capstone.capstone01.domain.user.domain.controller;
+package capstone.capstone01.domain.user.controller;
 
-import capstone.capstone01.domain.user.domain.dto.request.LoginRequestDto;
-import capstone.capstone01.domain.user.domain.dto.request.UserSignUpRequestDto;
-import capstone.capstone01.domain.user.domain.dto.response.LoginResponseDto;
-import capstone.capstone01.domain.user.domain.service.UserService;
+import capstone.capstone01.domain.user.dto.request.LoginRequestDto;
+import capstone.capstone01.domain.user.dto.request.UserSignUpRequestDto;
+import capstone.capstone01.domain.user.dto.response.LoginResponseDto;
+import capstone.capstone01.domain.user.service.UserService;
 import capstone.capstone01.global.apipayload.CustomApiResponse;
 import capstone.capstone01.global.apipayload.code.status.SuccessStatus;
 import io.swagger.v3.oas.annotations.Operation;
-
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+
 
 @RequiredArgsConstructor
 @RequestMapping("/api/user")
