@@ -26,7 +26,7 @@ public enum FileCategory {
             "etc",
             20 * 1024 * 1024L, // 20MB
             5,
-            List.of("jpg", "jpeg", "png", "gif", "bmp")
+            List.of("jpg", "jpeg","jfif", "png", "gif", "bmp")
     );
 
     private final String directory; // S3 디렉토리에 저장되는 파일 구조

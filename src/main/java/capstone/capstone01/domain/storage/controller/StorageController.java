@@ -25,10 +25,13 @@ public class StorageController {
             @RequestParam("file") MultipartFile file
     ) {
         // 파일 업로드 로직
-        FileCategory fileCategory = FileCategory.POST; // 파일 카테고리 설정
+        FileCategory fileCategory = FileCategory.ETC; // 파일 카테고리 설정
         FileSaveInfo fileSaveInfo = storageService.saveFile(file, fileCategory);
 
         // 파일 URL 반환
         return CustomApiResponse.of(SuccessStatus.FILE_UPLOAD_OK, fileSaveInfo.getFileUrl());
     }
+
+
+
 }
