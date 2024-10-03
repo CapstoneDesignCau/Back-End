@@ -27,7 +27,15 @@ public enum ErrorStatus implements BaseErrorCode {
 
     //게시물(Post 관련 에러)
     POST_NOT_FOUND(HttpStatus.BAD_REQUEST, "POST_4001", "해당하는 게시물이 없습니다."),
-    POST_EDIT_NOT_ALLOWED(HttpStatus.UNAUTHORIZED, "POST_4002", "게시물은 작성자만 변경할수 있습니다.");
+    POST_EDIT_NOT_ALLOWED(HttpStatus.UNAUTHORIZED, "POST_4002", "게시물은 작성자만 변경할수 있습니다."),
+
+    //파일 관련 에러
+    FILE_UPLOAD_FAIL(HttpStatus.BAD_REQUEST, "FILE_4001", "S3에 파일을 저장하는 것을 실패했습니다."),
+    FILE_DELETE_FAIL(HttpStatus.BAD_REQUEST, "FILE_4002", "S3에 파일을 삭제하는 것을 실패했습니다."),
+    FILE_COUNT_EXCEED(HttpStatus.BAD_REQUEST, "FILE_4003", "파일의 개수가 너무 많습니다."),
+    FILE_NULL(HttpStatus.BAD_REQUEST, "FILE_4004", "파일이 비어있습니다."),
+    FILE_SIZE_EXCEED(HttpStatus.BAD_REQUEST, "FILE_4005", "저장가능한 파일의 크기를 초과합니다."),
+    FILE_WRONG_EXTENSION(HttpStatus.BAD_REQUEST, "FILE_4005", "허용되지 않은 확장자명입니다.");
 
     private final HttpStatus httpStatus;
     private final String code;
