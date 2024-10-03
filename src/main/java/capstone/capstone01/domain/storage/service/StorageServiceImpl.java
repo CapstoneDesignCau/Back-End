@@ -27,7 +27,7 @@ import java.util.*;
 @Service
 @RequiredArgsConstructor(access = AccessLevel.PROTECTED)
 @Transactional
-public class storageServiceImpl implements storageService{
+public class StorageServiceImpl implements StorageService {
 
     private final AmazonS3 amazonS3;
     private final FileSaveInfoRepository fileSaveInfoRepository;
