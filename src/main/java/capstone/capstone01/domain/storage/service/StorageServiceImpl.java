@@ -34,6 +34,7 @@ public class StorageServiceImpl implements StorageService {
     @Value("${cloud.aws.s3.bucket}")
     private String bucketName;
 
+    @Override
     public FileSaveInfo saveFile(MultipartFile file, FileCategory fileCategory) {
         this.validateFile(file, fileCategory);
 
@@ -50,6 +51,7 @@ public class StorageServiceImpl implements StorageService {
         return fileSaveInfoRepository.save(fileSaveInfo);
     }
 
+    @Override
     public List<FileSaveInfo> saveFileList(List<MultipartFile> fileList, FileCategory fileCategory) {
         this.validateFileListSize(fileList, fileCategory);
         return fileList.stream()
@@ -57,6 +59,7 @@ public class StorageServiceImpl implements StorageService {
                 .toList();
     }
 
+    @Override
     public FileSaveInfo updateFile(FileSaveInfo priorFileSaveInfo, @NotNull MultipartFile file, @NotNull FileCategory fileCategory) {
         if (priorFileSaveInfo != null) {
             this.deleteFile(priorFileSaveInfo);
@@ -64,6 +67,7 @@ public class StorageServiceImpl implements StorageService {
         return this.saveFile(file, fileCategory);
     }
 
+    @Override
     public List<FileSaveInfo> updateFileList(List<FileSaveInfo> priorFileSaveInfoList, List<MultipartFile> fileList, FileCategory fileCategory) {
         if (!priorFileSaveInfoList.isEmpty()) {
             this.deleteFileList(priorFileSaveInfoList);
@@ -72,15 +76,23 @@ public class StorageServiceImpl implements StorageService {
         return this.saveFileList(fileList, fileCategory);
     }
 
+    @Override
     public void deleteFile(@NotNull FileSaveInfo fileSaveInfo) {
         this.deleteFileToS3(fileSaveInfo.getFileKey());
         fileSaveInfoRepository.delete(fileSaveInfo);
     }
 
+    @Override
     public void deleteFileList(@NotNull List<FileSaveInfo> fileSaveInfoList) {
         for (FileSaveInfo fileSaveInfo : fileSaveInfoList) {
             this.deleteFile(fileSaveInfo);
         }
+    }
+
+    @Override
+    public void deleteFileByUrl(String fileUrl) {
+        Optional<FileSaveInfo> fileSaveInfo = fileSaveInfoRepository.findByFileUrl(fileUrl);
+        fileSaveInfo.ifPresent(this::deleteFile);
     }
 
     //S3에 파일 업로드

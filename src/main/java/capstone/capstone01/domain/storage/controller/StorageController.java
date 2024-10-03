@@ -32,6 +32,13 @@ public class StorageController {
         return CustomApiResponse.of(SuccessStatus.FILE_UPLOAD_OK, fileSaveInfo.getFileUrl());
     }
 
+    @Operation(summary = "파일 삭제", description = "파일 삭제 API")
+    @ResponseStatus(value = HttpStatus.OK)
+    @DeleteMapping("/delete-file")
+    public CustomApiResponse<Void> deleteFile(@RequestParam("fileUrl") String fileUrl) {
+        storageService.deleteFileByUrl(fileUrl);
 
+        return CustomApiResponse.of(SuccessStatus.FILE_DELETE_OK, null);
+    }
 
 }

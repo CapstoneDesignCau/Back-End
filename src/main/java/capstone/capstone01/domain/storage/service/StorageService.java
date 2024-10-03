@@ -20,4 +20,6 @@ public interface StorageService {
     void deleteFile(@NotNull FileSaveInfo fileSaveInfo);
 
     void deleteFileList(@NotNull List<FileSaveInfo> fileSaveInfoList);
+
+    void deleteFileByUrl(String fileUrl);
 }
