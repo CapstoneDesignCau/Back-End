@@ -8,7 +8,6 @@ import capstone.capstone01.global.apipayload.code.status.ErrorStatus;
 import capstone.capstone01.global.exception.specific.FileException;
 import capstone.capstone01.global.util.converter.StorageConverter;
 import com.amazonaws.services.s3.AmazonS3;
-import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 import jakarta.validation.constraints.NotNull;
@@ -42,7 +41,7 @@ public class StorageServiceImpl implements StorageService {
 
         String filename = file.getOriginalFilename();
         String originFileName = this.getOriginFileName(filename); // 파일명만
-        String extension = this.getExtension(originFileName); // 확장자만
+        String extension = this.getExtension(filename); // 확장자만
 
         Map<FileInfo, String> fileInfoMap = this.uploadFileToS3(file, uuid, originFileName, extension, fileCategory);
 
@@ -90,10 +89,10 @@ public class StorageServiceImpl implements StorageService {
         String fileKey = this.makeFileKey(uuid, originFileName, extension, fileCategory);
         ObjectMetadata objectMetadata = new ObjectMetadata();
         objectMetadata.setContentType(multipartFile.getContentType());
+        objectMetadata.setContentLength(multipartFile.getSize()); // 콘텐츠 길이 설정
 
         try (InputStream inputStream = multipartFile.getInputStream()) {
-            amazonS3.putObject(new PutObjectRequest(bucketName, fileKey, inputStream, objectMetadata)
-                    .withCannedAcl(CannedAccessControlList.PublicRead));
+            amazonS3.putObject(new PutObjectRequest(bucketName, fileKey, inputStream, objectMetadata));
         } catch (IOException e) {
             throw new FileException(ErrorStatus.FILE_UPLOAD_FAIL);
         }
@@ -122,8 +121,8 @@ public class StorageServiceImpl implements StorageService {
         return StringUtils.stripFilenameExtension(originFileName);
     }
 
-    private String getExtension(String originFileName) {
-        return StringUtils.getFilenameExtension(originFileName);
+    private String getExtension(String fileName) {
+        return StringUtils.getFilenameExtension(fileName);
     }
 
     // 파일 크기, 확장자, Null 검증

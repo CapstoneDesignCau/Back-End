@@ -13,13 +13,13 @@ public enum FileCategory {
             "user/profile",
             20 * 1024 * 1024L, // 20MB
             1,
-            List.of("jpg", "jpeg", "png", "gif", "bmp")
+            List.of("jpg", "jpeg","jfif", "png", "gif", "bmp")
     ),
     POST(
             "post",
             20 * 1024 * 1024L, // 20MB
             5,
-            List.of("jpg", "jpeg", "png", "gif", "bmp",
+            List.of("jpg", "jpeg","jfif", "png", "gif", "bmp",
                     "doc", "docx", "xls", "xlsx", "ppt", "pptx", "pdf", "hwp")
     ),
     ETC(
