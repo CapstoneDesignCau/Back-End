@@ -1,7 +1,10 @@
 package capstone.capstone01.global.config;
 
+import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Info;
+import io.swagger.v3.oas.models.security.SecurityRequirement;
+import io.swagger.v3.oas.models.security.SecurityScheme;
 import io.swagger.v3.oas.models.servers.Server;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -16,10 +19,19 @@ public class SwaggerConfig {
                 .description("백엔드 API 명세서 입니다.")
                 .version("1.0.0");
 
-        //FIXME: Spring Security 설정후 JWT를 포함하게 Config 파일 변경
-        return new OpenAPI()
-                .addServersItem(new Server().url("/"))
-                .info(info);
-    }
+        String jwtSchemeName = "JWT TOKEN";
+        SecurityRequirement securityRequirement = new SecurityRequirement().addList(jwtSchemeName);
+        Components components = new Components()
+                .addSecuritySchemes(jwtSchemeName, new SecurityScheme()
+                        .name(jwtSchemeName)
+                        .type(SecurityScheme.Type.HTTP) // HTTP 방식
+                        .scheme("bearer")
+                        .bearerFormat("JWT"));
 
+        return new OpenAPI()
+                .addServersItem(new Server().url("/")) // 서버 URL 설정
+                .info(info)
+                .addSecurityItem(securityRequirement)
+                .components(components);
+    }
 }

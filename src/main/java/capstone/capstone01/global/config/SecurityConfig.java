@@ -42,6 +42,8 @@ public class SecurityConfig {
         //Todo: requestMatchers 안 API 확인 필요
         httpSecurity
                 .authorizeHttpRequests(auth -> auth
+                        .requestMatchers("/swagger", "/swagger-ui.html", "/swagger-ui/**", "/api-docs", "/api-docs/**", "/v3/api-docs/**")
+                        .permitAll()
                         .requestMatchers("/", "/api/user/signUp", "/api/user/login", "/api/user/check-duplicate/**").permitAll() // 다음 API 는 권한 상관없이 항상허용
                         .anyRequest().authenticated()) //그 외의 API 는 JWT 로 인증된 권한 필요
                 .exceptionHandling(exception -> exception
