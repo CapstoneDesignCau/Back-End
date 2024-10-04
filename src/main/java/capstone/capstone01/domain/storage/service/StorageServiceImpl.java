@@ -13,6 +13,7 @@ import com.amazonaws.services.s3.model.PutObjectRequest;
 import jakarta.validation.constraints.NotNull;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,9 +24,11 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.*;
 
+
 @Service
 @RequiredArgsConstructor(access = AccessLevel.PROTECTED)
 @Transactional
+@Slf4j
 public class StorageServiceImpl implements StorageService {
 
     private final AmazonS3 amazonS3;
@@ -92,7 +95,11 @@ public class StorageServiceImpl implements StorageService {
     @Override
     public void deleteFileByUrl(String fileUrl) {
         Optional<FileSaveInfo> fileSaveInfo = fileSaveInfoRepository.findByFileUrl(fileUrl);
-        fileSaveInfo.ifPresent(this::deleteFile);
+        if(fileSaveInfo.isEmpty()){
+            throw new FileException(ErrorStatus.FILE_WRONG_URL);
+        }else{
+            this.deleteFile(fileSaveInfo.get());
+        }
     }
 
     //S3에 파일 업로드
