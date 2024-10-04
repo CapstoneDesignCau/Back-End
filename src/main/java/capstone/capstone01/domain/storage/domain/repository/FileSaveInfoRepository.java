@@ -8,5 +8,6 @@ import java.util.Optional;
 public interface FileSaveInfoRepository extends JpaRepository<FileSaveInfo, Long> {
 
     Optional<FileSaveInfo> findByFileUrl(String fileUrl);
+    Optional<FileSaveInfo> findByFileKey(String fileKey);
 
 }

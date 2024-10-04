@@ -94,11 +94,17 @@ public class StorageServiceImpl implements StorageService {
 
     @Override
     public void deleteFileByUrl(String fileUrl) {
-        Optional<FileSaveInfo> fileSaveInfo = fileSaveInfoRepository.findByFileUrl(fileUrl);
-        if(fileSaveInfo.isEmpty()){
+        // 파일 키 추출
+        String fileKey = extractFileKeyFromUrl(fileUrl);
+        //System.out.println("Extracted fileKey: " + fileKey);
+
+        Optional<FileSaveInfo> fileSaveInfoOptional = fileSaveInfoRepository.findByFileKey(fileKey);
+        if (fileSaveInfoOptional.isEmpty()) {
             throw new FileException(ErrorStatus.FILE_WRONG_URL);
-        }else{
-            this.deleteFile(fileSaveInfo.get());
+        } else {
+            FileSaveInfo fileSaveInfo = fileSaveInfoOptional.get();
+            this.deleteFile(fileSaveInfo);
+            fileSaveInfoRepository.delete(fileSaveInfo);
         }
     }
 
@@ -180,4 +186,17 @@ public class StorageServiceImpl implements StorageService {
             throw new FileException(ErrorStatus.FILE_COUNT_EXCEED);
         }
     }
+
+    //Url 에서 FileKey 추출
+    private String extractFileKeyFromUrl(String fileUrl) {
+        //ex) https://bucket-name.s3.amazonaws.com/folder/file.ext -> folder/file.ext
+        String delimiter = "amazonaws.com/";
+        int index = fileUrl.indexOf(delimiter);
+        if (index != -1) {
+            return fileUrl.substring(index + delimiter.length());
+        } else {
+            throw new FileException(ErrorStatus.FILE_WRONG_URL);
+        }
+    }
+
 }
