@@ -34,7 +34,7 @@ public class StorageController {
 
     @Operation(summary = "파일 삭제", description = "파일 삭제 API")
     @ResponseStatus(value = HttpStatus.OK)
-    @DeleteMapping("/delete-file")
+    @DeleteMapping("/file")
     public CustomApiResponse<Void> deleteFile(@RequestParam("fileUrl") String fileUrl) {
         storageService.deleteFileByUrl(fileUrl);
 
