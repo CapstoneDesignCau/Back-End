@@ -35,9 +35,9 @@ public enum ErrorStatus implements BaseErrorCode {
     FILE_COUNT_EXCEED(HttpStatus.BAD_REQUEST, "FILE_4003", "파일의 개수가 너무 많습니다."),
     FILE_NULL(HttpStatus.BAD_REQUEST, "FILE_4004", "파일이 비어있습니다."),
     FILE_SIZE_EXCEED(HttpStatus.BAD_REQUEST, "FILE_4005", "저장가능한 파일의 크기를 초과합니다."),
-    FILE_WRONG_EXTENSION(HttpStatus.BAD_REQUEST, "FILE_4005", "허용되지 않은 확장자명입니다."),
-    FILE_WRONG_URL(HttpStatus.BAD_REQUEST, "FILE_4006", "잘못된 S3 URL 입니다."),
-    FILE_URL_ENCODING_FAIL(HttpStatus.INTERNAL_SERVER_ERROR, "FILE_4007", "UTF-8방식의 인코딩에 실패했습니다.");
+    FILE_WRONG_EXTENSION(HttpStatus.BAD_REQUEST, "FILE_4006", "허용되지 않은 확장자명입니다."),
+    FILE_WRONG_URL(HttpStatus.BAD_REQUEST, "FILE_4007", "잘못된 S3 URL 입니다."),
+    FILE_URL_ENCODING_FAIL(HttpStatus.INTERNAL_SERVER_ERROR, "FILE_4008", "UTF-8방식의 인코딩에 실패했습니다.");
 
     private final HttpStatus httpStatus;
     private final String code;
