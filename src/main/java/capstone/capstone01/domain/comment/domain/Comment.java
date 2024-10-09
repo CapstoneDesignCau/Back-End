@@ -6,7 +6,6 @@ import capstone.capstone01.global.domain.BaseEntity;
 import jakarta.persistence.*;
 import lombok.*;
 
-
 @Entity
 @Builder
 @Getter

@@ -21,7 +21,7 @@ public class LikeController {
     @ResponseStatus(value = HttpStatus.CREATED)
     @PostMapping("/imagePost/{imagePost-id}")
     public CustomApiResponse<Void> likeImagePost(
-            @PathVariable("imagePost-id") String id
+            @PathVariable("imagePost-id") Long id
     ) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String email = authentication.getName();
@@ -29,11 +29,11 @@ public class LikeController {
         return CustomApiResponse.of(SuccessStatus.LIKE_OK, null);
     }
 
-    @Operation(summary = "사진 게시글 좋아요 취소 API", description = "사진 게시글 좋아요 취소 API")
+    @Operation(summary = "사진 게시글 좋아요 취소", description = "사진 게시글 좋아요 취소 API")
     @ResponseStatus(value = HttpStatus.OK)
     @PatchMapping("/imagePost/{imagePost-id}")
     public CustomApiResponse<Void> cancelLikePost(
-            @PathVariable("imagePost-id") String id
+            @PathVariable("imagePost-id") Long id
     ) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String email = authentication.getName();
@@ -45,7 +45,7 @@ public class LikeController {
     @ResponseStatus(value = HttpStatus.CREATED)
     @PostMapping("/comment/{imagePost-id}")
     public CustomApiResponse<Void> likeComment(
-            @PathVariable("imagePost-id") String id
+            @PathVariable("imagePost-id") Long id
     ) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String email = authentication.getName();
@@ -53,11 +53,11 @@ public class LikeController {
         return CustomApiResponse.of(SuccessStatus.LIKE_OK, null);
     }
 
-    @Operation(summary = "댓글 좋아요 취소 API", description = "댓글 좋아요 취소 API")
+    @Operation(summary = "댓글 좋아요 취소", description = "댓글 좋아요 취소 API")
     @ResponseStatus(value = HttpStatus.OK)
     @PatchMapping("/comment/{imagePost-id}")
     public CustomApiResponse<Void> cancelLikeComment(
-            @PathVariable("imagePost-id") String id
+            @PathVariable("imagePost-id") Long id
     ) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String email = authentication.getName();
