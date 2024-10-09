@@ -26,7 +26,7 @@ public class LikeController {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String email = authentication.getName();
         likeService.likeImagePost(email, id);
-        return CustomApiResponse.of(SuccessStatus.LIKE_OK, null);
+        return CustomApiResponse.of(SuccessStatus.LIKE_CREATED, null);
     }
 
     @Operation(summary = "사진 게시글 좋아요 취소", description = "사진 게시글 좋아요 취소 API")
@@ -38,7 +38,7 @@ public class LikeController {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String email = authentication.getName();
         likeService.cancelLikeImagePost(email, id);
-        return CustomApiResponse.of(SuccessStatus.LIKE_CREATED, null);
+        return CustomApiResponse.of(SuccessStatus.LIKE_OK, null);
     }
 
     @Operation(summary = "댓글 좋아요 저장", description = "댓글 좋아요 저장 API")
@@ -50,7 +50,7 @@ public class LikeController {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String email = authentication.getName();
         likeService.likeComment(email, id);
-        return CustomApiResponse.of(SuccessStatus.LIKE_OK, null);
+        return CustomApiResponse.of(SuccessStatus.LIKE_CREATED, null);
     }
 
     @Operation(summary = "댓글 좋아요 취소", description = "댓글 좋아요 취소 API")
@@ -62,7 +62,7 @@ public class LikeController {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String email = authentication.getName();
         likeService.cancelLikeComment(email, id);
-        return CustomApiResponse.of(SuccessStatus.LIKE_CREATED, null);
+        return CustomApiResponse.of(SuccessStatus.LIKE_OK, null);
     }
 
 }
