@@ -1,9 +1,13 @@
 package capstone.capstone01.domain.imagepost.domain;
 
+import capstone.capstone01.domain.comment.domain.Comment;
 import capstone.capstone01.domain.user.domain.User;
 import capstone.capstone01.global.domain.BaseEntity;
 import jakarta.persistence.*;
 import lombok.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Builder
@@ -26,6 +30,9 @@ public class ImagePost extends BaseEntity {
 
     //TODO: file_save_info 필드에 추가(중간고사 이후 작업 예정)
 
+    @OneToMany(mappedBy = "imagePost", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Comment> comments = new ArrayList<>();
+
     @Column(name = "isDeleted")
     @Builder.Default
     private Boolean isDeleted = false;
@@ -38,4 +45,12 @@ public class ImagePost extends BaseEntity {
         this.isDeleted = isDeleted;
     }
 
+    public void addComment(Comment comment) {
+        comments.add(comment);
+        comment.setImagePost(this);
+    }
+
+    public void removeComment(Comment comment) {
+        comments.remove(comment);
+    }
 }
