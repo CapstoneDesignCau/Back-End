@@ -30,6 +30,10 @@ public class ImagePost extends BaseEntity {
 
     //TODO: file_save_info 필드에 추가(중간고사 이후 작업 예정)
 
+    @Column(name="isOpen", nullable = false)
+    @Builder.Default
+    private Boolean isOpen = true;
+
     @OneToMany(mappedBy = "imagePost", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Comment> comments = new ArrayList<>();
 
