@@ -16,9 +16,7 @@ import capstone.capstone01.global.exception.specific.ImagePostException;
 import capstone.capstone01.global.exception.specific.LikeException;
 import capstone.capstone01.global.exception.specific.UserException;
 import capstone.capstone01.global.util.converter.LikeConverter;
-import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -102,18 +100,15 @@ public class LikeServiceImpl implements LikeService {
     }
 
     private User getUserByEmail(String email) {
-        return userRepository.findByEmail(email)
-                .orElseThrow(() -> new UserException(ErrorStatus.USER_NOT_FOUND));
+        return userRepository.findByEmail(email).orElseThrow(() -> new UserException(ErrorStatus.USER_NOT_FOUND));
     }
 
     private ImagePost getImagePostById(Long imagePostId) {
-        return imagePostRepository.findById(imagePostId)
-                .orElseThrow(() -> new ImagePostException(ErrorStatus.POST_NOT_FOUND));
+        return imagePostRepository.findById(imagePostId).orElseThrow(() -> new ImagePostException(ErrorStatus.POST_NOT_FOUND));
     }
 
     private Comment getCommentById(Long commentId) {
-        return commentRepository.findById(commentId).
-                orElseThrow(() -> new CommentException(ErrorStatus.COMMENT_NOT_FOUND));
+        return commentRepository.findById(commentId).orElseThrow(() -> new CommentException(ErrorStatus.COMMENT_NOT_FOUND));
     }
 
     private Boolean isImagePostAlreadyLiked(User user, Long imagePostId) {
@@ -125,12 +120,10 @@ public class LikeServiceImpl implements LikeService {
     }
 
     private ImagePostLike getImagePostLike(User user, Long imagePostId) {
-        return imagePostLikeRepository.findByImagePostIdAndUserId(imagePostId, user.getId())
-                .orElseThrow(() -> new LikeException(ErrorStatus.POST_LIKE_NOT_FOUND));
+        return imagePostLikeRepository.findByImagePostIdAndUserId(imagePostId, user.getId()).orElseThrow(() -> new LikeException(ErrorStatus.POST_LIKE_NOT_FOUND));
     }
 
     private CommentLike getCommentLike(User user, Long commentId) {
-        return commentLikeRepository.findByCommentIdAndUserId(commentId, user.getId()).orElseThrow(
-                () -> new LikeException(ErrorStatus.COMMENT_LIKE_NOT_FOUND));
+        return commentLikeRepository.findByCommentIdAndUserId(commentId, user.getId()).orElseThrow(() -> new LikeException(ErrorStatus.COMMENT_LIKE_NOT_FOUND));
     }
 }
