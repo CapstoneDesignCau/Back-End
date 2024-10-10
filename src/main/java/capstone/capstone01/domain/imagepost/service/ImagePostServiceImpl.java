@@ -33,6 +33,7 @@ public class ImagePostServiceImpl implements ImagePostService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public ImagePostResponseDto getImagePost(String email, Long id) {
         User user = findUserByEmail(email);
         ImagePost imagePost = findImagePostById(id);
