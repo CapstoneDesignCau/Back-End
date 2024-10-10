@@ -1,4 +1,4 @@
-package capstone.capstone01.domain.post.dto.request;
+package capstone.capstone01.domain.imagepost.dto.request;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
