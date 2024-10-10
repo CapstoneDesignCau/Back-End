@@ -33,6 +33,7 @@ public enum ErrorStatus implements BaseErrorCode {
 
     //댓글 관련 에러
     COMMENT_NOT_FOUND(HttpStatus.BAD_REQUEST, "COMMENT_4001", "해당하는 댓글이 없습니다."),
+    COMMENT_DELETE_NOT_ALLOWED(HttpStatus.UNAUTHORIZED, "COMMENT_4002", "해당 댓글을 삭제할 권한이 없습니다."),
 
     //좋아요 관련 에러
     POST_ALREADY_LIKE(HttpStatus.BAD_REQUEST, "LIKE_4001", "해당하는 게시글은 이미 좋아요인 상태입니다."),

@@ -16,6 +16,9 @@ public enum SuccessStatus implements BaseCode {
     POST_OK(HttpStatus.OK, "POST_2000", "Post 관련 요청이 성공적으로 수행되었습니다."),
     POST_CREATED(HttpStatus.CREATED, "POST_2001", "Post 관련 요청이 성공적으로 생성되었습니다."),
 
+    COMMENT_OK(HttpStatus.OK, "COMMENT_2000", "Comment 관련 요청이 성공적으로 수행되었습니다."),
+    COMMENT_CREATED(HttpStatus.CREATED, "COMMENT_2001", "Comment 관련 요청이 성공적으로 생성되었습니다."),
+
     LIKE_OK(HttpStatus.OK, "LIKE_2000", "Like 관련 요청이 성공적으로 수행되었습니다."),
     LIKE_CREATED(HttpStatus.CREATED, "LIKE_2001", "LIKE 관련 요청이 성공적으로 생성되었습니다."),
 
