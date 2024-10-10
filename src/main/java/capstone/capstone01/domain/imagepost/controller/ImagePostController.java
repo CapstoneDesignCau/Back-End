@@ -1,6 +1,6 @@
 package capstone.capstone01.domain.imagepost.controller;
 
-import capstone.capstone01.domain.imagepost.dto.request.PostCreateRequestDto;
+import capstone.capstone01.domain.imagepost.dto.request.ImagePostCreateRequestDto;
 import capstone.capstone01.domain.imagepost.dto.response.ImagePostResponseDto;
 import capstone.capstone01.domain.imagepost.service.ImagePostService;
 import capstone.capstone01.global.apipayload.CustomApiResponse;
@@ -24,12 +24,12 @@ public class ImagePostController {
     @ResponseStatus(value = HttpStatus.CREATED)
     @PostMapping("")
     public CustomApiResponse<Long> createImagePost(
-            @Valid @RequestBody PostCreateRequestDto postCreateRequestDto
+            @Valid @RequestBody ImagePostCreateRequestDto imagePostCreateRequestDto
     ) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String email = authentication.getName(); // 로그인한 사용자의 이메일(ID)를 가져옴.
 
-        Long postId = imagePostService.createImagePost(email, postCreateRequestDto);
+        Long postId = imagePostService.createImagePost(email, imagePostCreateRequestDto);
         return CustomApiResponse.of(SuccessStatus.POST_CREATED, postId);
     }
 

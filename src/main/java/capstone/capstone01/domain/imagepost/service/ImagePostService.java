@@ -1,11 +1,11 @@
 package capstone.capstone01.domain.imagepost.service;
 
-import capstone.capstone01.domain.imagepost.dto.request.PostCreateRequestDto;
+import capstone.capstone01.domain.imagepost.dto.request.ImagePostCreateRequestDto;
 import capstone.capstone01.domain.imagepost.dto.response.ImagePostResponseDto;
 
 public interface ImagePostService {
 
-    Long createImagePost(String email, PostCreateRequestDto postCreateRequestDto);
+    Long createImagePost(String email, ImagePostCreateRequestDto imagePostCreateRequestDto);
 
     ImagePostResponseDto getImagePost(String email, Long id);
 

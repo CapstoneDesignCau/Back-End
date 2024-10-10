@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class PostCreateRequestDto {
+public class ImagePostCreateRequestDto {
 
     @NotBlank(message = "게시글 제목을 입력해주세요.")
     @Schema(description = "게시글 제목", example = "test 게시글입니다.")

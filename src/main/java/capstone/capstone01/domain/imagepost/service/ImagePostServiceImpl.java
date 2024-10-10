@@ -2,7 +2,7 @@ package capstone.capstone01.domain.imagepost.service;
 
 import capstone.capstone01.domain.imagepost.domain.ImagePost;
 import capstone.capstone01.domain.imagepost.domain.repository.ImagePostRepository;
-import capstone.capstone01.domain.imagepost.dto.request.PostCreateRequestDto;
+import capstone.capstone01.domain.imagepost.dto.request.ImagePostCreateRequestDto;
 import capstone.capstone01.domain.imagepost.dto.response.ImagePostResponseDto;
 import capstone.capstone01.domain.user.domain.User;
 import capstone.capstone01.domain.user.domain.enums.UserRole;
@@ -24,9 +24,9 @@ public class ImagePostServiceImpl implements ImagePostService {
     private final UserRepository userRepository;
 
     @Override
-    public Long createImagePost(String email, PostCreateRequestDto postCreateRequestDto) {
+    public Long createImagePost(String email, ImagePostCreateRequestDto imagePostCreateRequestDto) {
         User user = findUserByEmail(email);
-        ImagePost imagePost = ImagePostConverter.toImagePost(postCreateRequestDto, user);
+        ImagePost imagePost = ImagePostConverter.toImagePost(imagePostCreateRequestDto, user);
 
         imagePostRepository.save(imagePost);
         return imagePost.getId();

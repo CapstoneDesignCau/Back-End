@@ -1,13 +1,13 @@
 package capstone.capstone01.global.util.converter;
 
 import capstone.capstone01.domain.imagepost.domain.ImagePost;
-import capstone.capstone01.domain.imagepost.dto.request.PostCreateRequestDto;
+import capstone.capstone01.domain.imagepost.dto.request.ImagePostCreateRequestDto;
 import capstone.capstone01.domain.imagepost.dto.response.ImagePostResponseDto;
 import capstone.capstone01.domain.user.domain.User;
 
 public class ImagePostConverter {
 
-    public static ImagePost toImagePost(PostCreateRequestDto requestDto, User writer) {
+    public static ImagePost toImagePost(ImagePostCreateRequestDto requestDto, User writer) {
         return ImagePost.builder()
                 .title(requestDto.getTitle())
                 .writer(writer)
