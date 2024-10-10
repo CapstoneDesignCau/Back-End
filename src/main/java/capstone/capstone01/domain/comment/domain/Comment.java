@@ -37,8 +37,8 @@ public class Comment extends BaseEntity {
         this.content = content;
     }
 
-    public void delete() {
-        this.isDeleted = true;
+    public void delete(Boolean isDeleted) {
+        this.isDeleted = isDeleted;
     }
 
     public void setImagePost(ImagePost imagePost) {
