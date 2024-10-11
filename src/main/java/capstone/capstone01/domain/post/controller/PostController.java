@@ -1,8 +1,8 @@
-package capstone.capstone01.domain.imagepost.controller;
+package capstone.capstone01.domain.post.controller;
 
-import capstone.capstone01.domain.imagepost.dto.request.ImagePostCreateRequestDto;
-import capstone.capstone01.domain.imagepost.dto.response.ImagePostResponseDto;
-import capstone.capstone01.domain.imagepost.service.ImagePostService;
+import capstone.capstone01.domain.post.dto.request.PostCreateRequestDto;
+import capstone.capstone01.domain.post.dto.response.PostResponseDto;
+import capstone.capstone01.domain.post.service.PostService;
 import capstone.capstone01.global.apipayload.CustomApiResponse;
 import capstone.capstone01.global.apipayload.code.status.SuccessStatus;
 import io.swagger.v3.oas.annotations.Operation;
@@ -14,34 +14,34 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 @RequiredArgsConstructor
-@RequestMapping("/api/imagePost")
+@RequestMapping("/api/post")
 @RestController
-public class ImagePostController {
+public class PostController {
 
-    private final ImagePostService imagePostService;
+    private final PostService postService;
 
-    @Operation(summary = "사진 게시물 생성", description = "사진 게시물 생성 API")
+    @Operation(summary = "게시물 생성", description = "게시물 생성 API")
     @ResponseStatus(value = HttpStatus.CREATED)
     @PostMapping("")
     public CustomApiResponse<Long> createImagePost(
-            @Valid @RequestBody ImagePostCreateRequestDto imagePostCreateRequestDto
+            @Valid @RequestBody PostCreateRequestDto postCreateRequestDto
     ) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String email = authentication.getName(); // 로그인한 사용자의 이메일(ID)를 가져옴.
 
-        Long postId = imagePostService.createImagePost(email, imagePostCreateRequestDto);
+        Long postId = postService.createPost(email, postCreateRequestDto);
         return CustomApiResponse.of(SuccessStatus.POST_CREATED, postId);
     }
 
     @Operation(summary = "사진 게시물 조회", description = "사진 게시물 조회 API")
     @ResponseStatus(value = HttpStatus.OK)
     @GetMapping("/{imagePost-id}")
-    public CustomApiResponse<ImagePostResponseDto> getImagePost(@PathVariable("imagePost-id") Long id) {
+    public CustomApiResponse<PostResponseDto> getImagePost(@PathVariable("imagePost-id") Long id) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String email = authentication.getName();
 
-        ImagePostResponseDto imagePostResponseDto = imagePostService.getImagePost(email, id);
-        return CustomApiResponse.of(SuccessStatus.POST_OK, imagePostResponseDto);
+        PostResponseDto postResponseDto = postService.getPost(email, id);
+        return CustomApiResponse.of(SuccessStatus.POST_OK, postResponseDto);
     }
 
     @Operation(summary = "사진 게시물 삭제", description = "사진 게시물 삭제 API")
@@ -51,7 +51,7 @@ public class ImagePostController {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String email = authentication.getName();
 
-        imagePostService.deleteImagePost(email, id);
+        postService.deletePost(email, id);
         return CustomApiResponse.of(SuccessStatus.POST_OK, null);
     }
 

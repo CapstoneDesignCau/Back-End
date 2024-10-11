@@ -1,4 +1,4 @@
-package capstone.capstone01.domain.imagepost.dto.response;
+package capstone.capstone01.domain.post.dto.response;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Builder;
@@ -6,7 +6,7 @@ import lombok.Getter;
 
 @Getter
 @Builder
-public class ImagePostResponseDto {
+public class PostResponseDto {
 
     @Schema(description = "게시물 ID", example = "1")
     private Long id;

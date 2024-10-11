@@ -1,4 +1,4 @@
-package capstone.capstone01.domain.imagepost.domain;
+package capstone.capstone01.domain.post.domain;
 
 import capstone.capstone01.domain.comment.domain.Comment;
 import capstone.capstone01.domain.user.domain.User;
@@ -14,7 +14,7 @@ import java.util.List;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
-public class ImagePost extends BaseEntity {
+public class Post extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -51,7 +51,7 @@ public class ImagePost extends BaseEntity {
 
     public void addComment(Comment comment) {
         comments.add(comment);
-        comment.setImagePost(this);
+        comment.setPost(this);
     }
 
     public void removeComment(Comment comment) {

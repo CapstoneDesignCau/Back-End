@@ -4,14 +4,14 @@ import capstone.capstone01.domain.comment.domain.Comment;
 import capstone.capstone01.domain.comment.domain.repository.CommentRepository;
 import capstone.capstone01.domain.comment.dto.request.CommentCreateRequestDto;
 import capstone.capstone01.domain.comment.dto.response.CommentResponseDto;
-import capstone.capstone01.domain.imagepost.domain.ImagePost;
-import capstone.capstone01.domain.imagepost.domain.repository.ImagePostRepository;
+import capstone.capstone01.domain.post.domain.Post;
+import capstone.capstone01.domain.post.domain.repository.PostRepository;
 import capstone.capstone01.domain.user.domain.User;
 import capstone.capstone01.domain.user.domain.enums.UserRole;
 import capstone.capstone01.domain.user.domain.repository.UserRepository;
 import capstone.capstone01.global.apipayload.code.status.ErrorStatus;
 import capstone.capstone01.global.exception.specific.CommentException;
-import capstone.capstone01.global.exception.specific.ImagePostException;
+import capstone.capstone01.global.exception.specific.PostException;
 import capstone.capstone01.global.exception.specific.UserException;
 import capstone.capstone01.global.util.converter.CommentConverter;
 import lombok.RequiredArgsConstructor;
@@ -25,14 +25,14 @@ public class CommentServiceImpl implements CommentService {
 
     private final CommentRepository commentRepository;
     private final UserRepository userRepository;
-    private final ImagePostRepository imagePostRepository;
+    private final PostRepository postRepository;
 
     @Override
     public Long createComment(String email, CommentCreateRequestDto commentCreateRequestDto) {
         User user = findUserByEmail(email);
-        ImagePost imagePost = findImagePostById(commentCreateRequestDto.getImagePostId());
+        Post post = findImagePostById(commentCreateRequestDto.getImagePostId());
 
-        Comment comment = CommentConverter.toComment(commentCreateRequestDto, user, imagePost);
+        Comment comment = CommentConverter.toComment(commentCreateRequestDto, user, post);
         commentRepository.save(comment);
         return comment.getId();
     }
@@ -51,8 +51,8 @@ public class CommentServiceImpl implements CommentService {
         Comment comment = findCommentById(id);
 
         if (user.getRole() == UserRole.ADMIN || comment.getWriter().getEmail().equals(email)) {
-            ImagePost imagePost = comment.getImagePost();
-            imagePost.removeComment(comment); // Ensure bidirectional mapping
+            Post post = comment.getPost();
+            post.removeComment(comment); // Ensure bidirectional mapping
             comment.delete(true);
             commentRepository.save(comment);
         } else {
@@ -65,9 +65,9 @@ public class CommentServiceImpl implements CommentService {
                 .orElseThrow(() -> new UserException(ErrorStatus.USER_NOT_FOUND));
     }
 
-    private ImagePost findImagePostById(Long id) {
-        return imagePostRepository.findById(id)
-                .orElseThrow(() -> new ImagePostException(ErrorStatus.POST_NOT_FOUND));
+    private Post findImagePostById(Long id) {
+        return postRepository.findById(id)
+                .orElseThrow(() -> new PostException(ErrorStatus.POST_NOT_FOUND));
     }
 
     private Comment findCommentById(Long id) {

@@ -2,8 +2,8 @@ package capstone.capstone01.domain.like.service;
 
 import capstone.capstone01.domain.comment.domain.Comment;
 import capstone.capstone01.domain.comment.domain.repository.CommentRepository;
-import capstone.capstone01.domain.imagepost.domain.ImagePost;
-import capstone.capstone01.domain.imagepost.domain.repository.ImagePostRepository;
+import capstone.capstone01.domain.post.domain.Post;
+import capstone.capstone01.domain.post.domain.repository.PostRepository;
 import capstone.capstone01.domain.like.domain.CommentLike;
 import capstone.capstone01.domain.like.domain.ImagePostLike;
 import capstone.capstone01.domain.like.domain.repository.CommentLikeRepository;
@@ -12,7 +12,7 @@ import capstone.capstone01.domain.user.domain.User;
 import capstone.capstone01.domain.user.domain.repository.UserRepository;
 import capstone.capstone01.global.apipayload.code.status.ErrorStatus;
 import capstone.capstone01.global.exception.specific.CommentException;
-import capstone.capstone01.global.exception.specific.ImagePostException;
+import capstone.capstone01.global.exception.specific.PostException;
 import capstone.capstone01.global.exception.specific.LikeException;
 import capstone.capstone01.global.exception.specific.UserException;
 import capstone.capstone01.global.util.converter.LikeConverter;
@@ -27,14 +27,14 @@ public class LikeServiceImpl implements LikeService {
 
     private final ImagePostLikeRepository imagePostLikeRepository;
     private final CommentLikeRepository commentLikeRepository;
-    private final ImagePostRepository imagePostRepository;
+    private final PostRepository postRepository;
     private final CommentRepository commentRepository;
     private final UserRepository userRepository;
 
     @Override
     public void likeImagePost(String email, Long imagePostId) {
         User user = getUserByEmail(email);
-        ImagePost imagePost = getImagePostById(imagePostId);
+        Post post = getImagePostById(imagePostId);
 
         ImagePostLike imagePostLike;
         if (isImagePostAlreadyLiked(user, imagePostId)) {
@@ -45,7 +45,7 @@ public class LikeServiceImpl implements LikeService {
                 throw new LikeException(ErrorStatus.POST_ALREADY_LIKE);
             }
         } else {
-            imagePostLike = LikeConverter.toImagePostLike(user, imagePost);
+            imagePostLike = LikeConverter.toImagePostLike(user, post);
         }
 
         imagePostLikeRepository.save(imagePostLike);
@@ -103,8 +103,8 @@ public class LikeServiceImpl implements LikeService {
         return userRepository.findByEmail(email).orElseThrow(() -> new UserException(ErrorStatus.USER_NOT_FOUND));
     }
 
-    private ImagePost getImagePostById(Long imagePostId) {
-        return imagePostRepository.findById(imagePostId).orElseThrow(() -> new ImagePostException(ErrorStatus.POST_NOT_FOUND));
+    private Post getImagePostById(Long imagePostId) {
+        return postRepository.findById(imagePostId).orElseThrow(() -> new PostException(ErrorStatus.POST_NOT_FOUND));
     }
 
     private Comment getCommentById(Long commentId) {

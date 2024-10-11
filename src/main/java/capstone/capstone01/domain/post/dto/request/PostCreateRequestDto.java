@@ -1,4 +1,4 @@
-package capstone.capstone01.domain.imagepost.dto.request;
+package capstone.capstone01.domain.post.dto.request;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class ImagePostCreateRequestDto {
+public class PostCreateRequestDto {
 
     @NotBlank(message = "게시글 제목을 입력해주세요.")
     @Schema(description = "게시글 제목", example = "test 게시글입니다.")
