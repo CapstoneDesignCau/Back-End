@@ -19,7 +19,7 @@ public class LikeController {
 
     @Operation(summary = "게시글 좋아요 저장", description = "게시글 좋아요 저장 API")
     @ResponseStatus(value = HttpStatus.CREATED)
-    @PostMapping("/imagePost/{post-id}")
+    @PostMapping("/post/{post-id}")
     public CustomApiResponse<Void> likePost(
             @PathVariable("post-id") Long id
     ) {
@@ -31,7 +31,7 @@ public class LikeController {
 
     @Operation(summary = "게시글 좋아요 취소", description = "게시글 좋아요 취소 API")
     @ResponseStatus(value = HttpStatus.OK)
-    @PatchMapping("/imagePost/{post-id}")
+    @PatchMapping("/post/{post-id}")
     public CustomApiResponse<Void> cancelLikePost(
             @PathVariable("post-id") Long id
     ) {
