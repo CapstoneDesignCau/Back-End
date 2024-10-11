@@ -43,9 +43,9 @@ public class LikeController {
 
     @Operation(summary = "댓글 좋아요 저장", description = "댓글 좋아요 저장 API")
     @ResponseStatus(value = HttpStatus.CREATED)
-    @PostMapping("/comment/{imagePost-id}")
+    @PostMapping("/comment/{comment-id}")
     public CustomApiResponse<Void> likeComment(
-            @PathVariable("imagePost-id") Long id
+            @PathVariable("comment-id") Long id
     ) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String email = authentication.getName();
@@ -55,9 +55,9 @@ public class LikeController {
 
     @Operation(summary = "댓글 좋아요 취소", description = "댓글 좋아요 취소 API")
     @ResponseStatus(value = HttpStatus.OK)
-    @PatchMapping("/comment/{imagePost-id}")
+    @PatchMapping("/comment/{comment-id}")
     public CustomApiResponse<Void> cancelLikeComment(
-            @PathVariable("imagePost-id") Long id
+            @PathVariable("comment-id") Long id
     ) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String email = authentication.getName();

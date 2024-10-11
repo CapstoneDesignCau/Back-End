@@ -25,12 +25,15 @@ public enum ErrorStatus implements BaseErrorCode {
     USER_INCORRECT_PW(HttpStatus.FORBIDDEN, "USER_4005", "비밀번호가 일치하지 않습니다."),
     USER_NICKNAME_EXISTS(HttpStatus.CONFLICT, "USER_4006", "이미 존재하는 닉네임 입니다."),
 
-    //게시물(Post 관련 에러)
+    //게시물 관련 에러
     POST_NOT_FOUND(HttpStatus.BAD_REQUEST, "POST_4001", "해당하는 게시물이 없습니다."),
-    POST_EDIT_NOT_ALLOWED(HttpStatus.UNAUTHORIZED, "POST_4002", "게시물은 작성자만 변경할수 있습니다."),
+    POST_READ_NOT_ALLOWED(HttpStatus.UNAUTHORIZED, "POST_4002", "해당 게시물을 읽을 권한이 없습니다."),
+    POST_EDIT_NOT_ALLOWED(HttpStatus.UNAUTHORIZED, "POST_4003", "해당 게시물을 수정할 권한이 없습니다."),
+    POST_DELETE_NOT_ALLOWED(HttpStatus.UNAUTHORIZED, "POST_4004", "해당 게시물을 삭제할 권한이 없습니다."),
 
     //댓글 관련 에러
     COMMENT_NOT_FOUND(HttpStatus.BAD_REQUEST, "COMMENT_4001", "해당하는 댓글이 없습니다."),
+    COMMENT_DELETE_NOT_ALLOWED(HttpStatus.UNAUTHORIZED, "COMMENT_4002", "해당 댓글을 삭제할 권한이 없습니다."),
 
     //좋아요 관련 에러
     POST_ALREADY_LIKE(HttpStatus.BAD_REQUEST, "LIKE_4001", "해당하는 게시글은 이미 좋아요인 상태입니다."),
