@@ -18,8 +18,8 @@ public class PostCreateRequestDto {
     @Schema(description = "게시글 제목", example = "test 게시글입니다.")
     private String title;
 
-    @NotNull(message = "게시글 공개 여부를 입력해주세요.")
-    @Schema(description = "게시글 공개 여부", example = "true")
-    private Boolean isOpen;
+    @NotNull(message = "게시글 내용을 입력해주세요.")
+    @Schema(description = "게시글 내용", example = "test 게시글 내용")
+    private String content;
 
 }

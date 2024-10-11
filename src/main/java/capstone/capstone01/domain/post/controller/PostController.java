@@ -23,7 +23,7 @@ public class PostController {
     @Operation(summary = "게시물 생성", description = "게시물 생성 API")
     @ResponseStatus(value = HttpStatus.CREATED)
     @PostMapping("")
-    public CustomApiResponse<Long> createImagePost(
+    public CustomApiResponse<Long> createPost(
             @Valid @RequestBody PostCreateRequestDto postCreateRequestDto
     ) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -35,8 +35,8 @@ public class PostController {
 
     @Operation(summary = "사진 게시물 조회", description = "사진 게시물 조회 API")
     @ResponseStatus(value = HttpStatus.OK)
-    @GetMapping("/{imagePost-id}")
-    public CustomApiResponse<PostResponseDto> getImagePost(@PathVariable("imagePost-id") Long id) {
+    @GetMapping("/{post-id}")
+    public CustomApiResponse<PostResponseDto> getPost(@PathVariable("post-id") Long id) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String email = authentication.getName();
 
@@ -46,8 +46,8 @@ public class PostController {
 
     @Operation(summary = "사진 게시물 삭제", description = "사진 게시물 삭제 API")
     @ResponseStatus(value = HttpStatus.OK)
-    @DeleteMapping("/{imagePost-id}")
-    public CustomApiResponse<Void> deleteImagePost(@PathVariable("imagePost-id") Long id) {
+    @DeleteMapping("/{post-id}")
+    public CustomApiResponse<Void> deletePost(@PathVariable("post-id") Long id) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String email = authentication.getName();
 

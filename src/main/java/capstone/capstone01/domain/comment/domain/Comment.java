@@ -22,7 +22,7 @@ public class Comment extends BaseEntity {
     private String content;
 
     @ManyToOne(targetEntity = Post.class)
-    @JoinColumn(name = "imagePostId", nullable = false)
+    @JoinColumn(name = "postId", nullable = false)
     private Post post;
 
     @ManyToOne(targetEntity = User.class)

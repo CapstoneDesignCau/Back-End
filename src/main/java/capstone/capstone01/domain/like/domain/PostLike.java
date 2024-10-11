@@ -11,15 +11,15 @@ import lombok.*;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
-public class ImagePostLike extends BaseEntity {
+public class PostLike extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "ImagePostLikeId")
+    @Column(name = "postLikeId")
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "imagePostId")
+    @JoinColumn(name = "postId")
     private Post post;
 
     @ManyToOne(fetch = FetchType.LAZY)

@@ -2,9 +2,9 @@ package capstone.capstone01.domain.like.service;
 
 public interface LikeService {
 
-    void likeImagePost(String email, Long imagePostId);
+    void likePost(String email, Long postId);
 
-    void cancelLikeImagePost(String email, Long imagePostId);
+    void cancelLikePost(String email, Long postId);
 
     void likeComment(String email, Long commentId);
 

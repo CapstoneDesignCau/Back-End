@@ -5,9 +5,9 @@ import capstone.capstone01.domain.comment.domain.repository.CommentRepository;
 import capstone.capstone01.domain.post.domain.Post;
 import capstone.capstone01.domain.post.domain.repository.PostRepository;
 import capstone.capstone01.domain.like.domain.CommentLike;
-import capstone.capstone01.domain.like.domain.ImagePostLike;
+import capstone.capstone01.domain.like.domain.PostLike;
 import capstone.capstone01.domain.like.domain.repository.CommentLikeRepository;
-import capstone.capstone01.domain.like.domain.repository.ImagePostLikeRepository;
+import capstone.capstone01.domain.like.domain.repository.PostLikeRepository;
 import capstone.capstone01.domain.user.domain.User;
 import capstone.capstone01.domain.user.domain.repository.UserRepository;
 import capstone.capstone01.global.apipayload.code.status.ErrorStatus;
@@ -25,44 +25,44 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class LikeServiceImpl implements LikeService {
 
-    private final ImagePostLikeRepository imagePostLikeRepository;
+    private final PostLikeRepository postLikeRepository;
     private final CommentLikeRepository commentLikeRepository;
     private final PostRepository postRepository;
     private final CommentRepository commentRepository;
     private final UserRepository userRepository;
 
     @Override
-    public void likeImagePost(String email, Long imagePostId) {
+    public void likePost(String email, Long postId) {
         User user = getUserByEmail(email);
-        Post post = getImagePostById(imagePostId);
+        Post post = getPostById(postId);
 
-        ImagePostLike imagePostLike;
-        if (isImagePostAlreadyLiked(user, imagePostId)) {
-            imagePostLike = getImagePostLike(user, imagePostId);
-            if (imagePostLike.getIsDeleted()) {
-                imagePostLike.setIsDeleted(false);
+        PostLike postLike;
+        if (isPostAlreadyLiked(user, postId)) {
+            postLike = getPostLike(user, postId);
+            if (postLike.getIsDeleted()) {
+                postLike.setIsDeleted(false);
             } else {
                 throw new LikeException(ErrorStatus.POST_ALREADY_LIKE);
             }
         } else {
-            imagePostLike = LikeConverter.toImagePostLike(user, post);
+            postLike = LikeConverter.toImagePostLike(user, post);
         }
 
-        imagePostLikeRepository.save(imagePostLike);
+        postLikeRepository.save(postLike);
     }
 
     @Override
-    public void cancelLikeImagePost(String email, Long imagePostId) {
+    public void cancelLikePost(String email, Long postId) {
         User user = getUserByEmail(email);
 
-        ImagePostLike imagePostLike = getImagePostLike(user, imagePostId);
+        PostLike postLike = getPostLike(user, postId);
 
-        if (imagePostLike.getIsDeleted()) {
+        if (postLike.getIsDeleted()) {
             throw new LikeException(ErrorStatus.POST_LIKE_ALREADY_DELETED);
         }
 
-        imagePostLike.setIsDeleted(true);
-        imagePostLikeRepository.save(imagePostLike);
+        postLike.setIsDeleted(true);
+        postLikeRepository.save(postLike);
     }
 
     @Override
@@ -103,24 +103,24 @@ public class LikeServiceImpl implements LikeService {
         return userRepository.findByEmail(email).orElseThrow(() -> new UserException(ErrorStatus.USER_NOT_FOUND));
     }
 
-    private Post getImagePostById(Long imagePostId) {
-        return postRepository.findById(imagePostId).orElseThrow(() -> new PostException(ErrorStatus.POST_NOT_FOUND));
+    private Post getPostById(Long postId) {
+        return postRepository.findById(postId).orElseThrow(() -> new PostException(ErrorStatus.POST_NOT_FOUND));
     }
 
     private Comment getCommentById(Long commentId) {
         return commentRepository.findById(commentId).orElseThrow(() -> new CommentException(ErrorStatus.COMMENT_NOT_FOUND));
     }
 
-    private Boolean isImagePostAlreadyLiked(User user, Long imagePostId) {
-        return imagePostLikeRepository.existsByImagePostIdAndUserId(imagePostId, user.getId());
+    private Boolean isPostAlreadyLiked(User user, Long postId) {
+        return postLikeRepository.existsByPostIdAndUserId(postId, user.getId());
     }
 
     private Boolean isCommentAlreadyLiked(User user, Long commentId) {
         return commentLikeRepository.existsByCommentIdAndUserId(commentId, user.getId());
     }
 
-    private ImagePostLike getImagePostLike(User user, Long imagePostId) {
-        return imagePostLikeRepository.findByImagePostIdAndUserId(imagePostId, user.getId()).orElseThrow(() -> new LikeException(ErrorStatus.POST_LIKE_NOT_FOUND));
+    private PostLike getPostLike(User user, Long postId) {
+        return postLikeRepository.findByPostIdAndUserId(postId, user.getId()).orElseThrow(() -> new LikeException(ErrorStatus.POST_LIKE_NOT_FOUND));
     }
 
     private CommentLike getCommentLike(User user, Long commentId) {

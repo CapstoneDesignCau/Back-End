@@ -5,21 +5,22 @@ import capstone.capstone01.domain.post.dto.request.PostCreateRequestDto;
 import capstone.capstone01.domain.post.dto.response.PostResponseDto;
 import capstone.capstone01.domain.user.domain.User;
 
-public class ImagePostConverter {
+public class PostConverter {
 
-    public static Post toImagePost(PostCreateRequestDto requestDto, User writer) {
+    public static Post toPost(PostCreateRequestDto requestDto, User writer) {
         return Post.builder()
                 .title(requestDto.getTitle())
                 .writer(writer)
-                .isOpen(requestDto.getIsOpen())
+                .content((requestDto.getContent()))
                 .isDeleted(false)
                 .build();
     }
 
-    public static PostResponseDto toImagePostResponseDto(Post post) {
+    public static PostResponseDto toPostResponseDto(Post post) {
         return PostResponseDto.builder()
                 .id(post.getId())
                 .title(post.getTitle())
+                .content(post.getContent())
                 .writerNickname(post.getWriter().getNickname())
                 .isOpen(post.getIsOpen())
                 .isDeleted(post.getIsDeleted())

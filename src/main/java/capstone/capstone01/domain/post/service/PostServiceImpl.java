@@ -10,7 +10,7 @@ import capstone.capstone01.domain.user.domain.repository.UserRepository;
 import capstone.capstone01.global.apipayload.code.status.ErrorStatus;
 import capstone.capstone01.global.exception.specific.PostException;
 import capstone.capstone01.global.exception.specific.UserException;
-import capstone.capstone01.global.util.converter.ImagePostConverter;
+import capstone.capstone01.global.util.converter.PostConverter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -26,7 +26,7 @@ public class PostServiceImpl implements PostService {
     @Override
     public Long createPost(String email, PostCreateRequestDto postCreateRequestDto) {
         User user = findUserByEmail(email);
-        Post post = ImagePostConverter.toImagePost(postCreateRequestDto, user);
+        Post post = PostConverter.toPost(postCreateRequestDto, user);
 
         postRepository.save(post);
         return post.getId();
@@ -39,7 +39,7 @@ public class PostServiceImpl implements PostService {
         Post post = findImagePostById(id);
 
         if (user.getRole() == UserRole.ADMIN || post.getIsOpen() || post.getWriter().getEmail().equals(email)) {
-            return ImagePostConverter.toImagePostResponseDto(post);
+            return PostConverter.toPostResponseDto(post);
         } else {
             throw new PostException(ErrorStatus.POST_READ_NOT_ALLOWED);
         }

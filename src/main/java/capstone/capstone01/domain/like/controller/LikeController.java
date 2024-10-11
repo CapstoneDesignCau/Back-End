@@ -17,27 +17,27 @@ public class LikeController {
 
     private final LikeService likeService;
 
-    @Operation(summary = "사진 게시글 좋아요 저장", description = "사진 게시글 좋아요 저장 API")
+    @Operation(summary = "게시글 좋아요 저장", description = "게시글 좋아요 저장 API")
     @ResponseStatus(value = HttpStatus.CREATED)
-    @PostMapping("/imagePost/{imagePost-id}")
-    public CustomApiResponse<Void> likeImagePost(
-            @PathVariable("imagePost-id") Long id
+    @PostMapping("/imagePost/{post-id}")
+    public CustomApiResponse<Void> likePost(
+            @PathVariable("post-id") Long id
     ) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String email = authentication.getName();
-        likeService.likeImagePost(email, id);
+        likeService.likePost(email, id);
         return CustomApiResponse.of(SuccessStatus.LIKE_CREATED, null);
     }
 
-    @Operation(summary = "사진 게시글 좋아요 취소", description = "사진 게시글 좋아요 취소 API")
+    @Operation(summary = "게시글 좋아요 취소", description = "게시글 좋아요 취소 API")
     @ResponseStatus(value = HttpStatus.OK)
-    @PatchMapping("/imagePost/{imagePost-id}")
+    @PatchMapping("/imagePost/{post-id}")
     public CustomApiResponse<Void> cancelLikePost(
-            @PathVariable("imagePost-id") Long id
+            @PathVariable("post-id") Long id
     ) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String email = authentication.getName();
-        likeService.cancelLikeImagePost(email, id);
+        likeService.cancelLikePost(email, id);
         return CustomApiResponse.of(SuccessStatus.LIKE_OK, null);
     }
 

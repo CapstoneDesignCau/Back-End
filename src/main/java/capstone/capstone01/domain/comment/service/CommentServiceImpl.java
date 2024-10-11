@@ -30,7 +30,7 @@ public class CommentServiceImpl implements CommentService {
     @Override
     public Long createComment(String email, CommentCreateRequestDto commentCreateRequestDto) {
         User user = findUserByEmail(email);
-        Post post = findImagePostById(commentCreateRequestDto.getImagePostId());
+        Post post = findPostById(commentCreateRequestDto.getImagePostId());
 
         Comment comment = CommentConverter.toComment(commentCreateRequestDto, user, post);
         commentRepository.save(comment);
@@ -65,7 +65,7 @@ public class CommentServiceImpl implements CommentService {
                 .orElseThrow(() -> new UserException(ErrorStatus.USER_NOT_FOUND));
     }
 
-    private Post findImagePostById(Long id) {
+    private Post findPostById(Long id) {
         return postRepository.findById(id)
                 .orElseThrow(() -> new PostException(ErrorStatus.POST_NOT_FOUND));
     }
