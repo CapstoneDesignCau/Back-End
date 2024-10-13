@@ -1,4 +1,4 @@
-package capstone.capstone01.domain.learningMaterial.service;
+package capstone.capstone01.domain.learningmaterial.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

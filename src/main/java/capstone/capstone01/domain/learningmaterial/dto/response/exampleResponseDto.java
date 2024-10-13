@@ -1,6 +1,5 @@
-package capstone.capstone01.domain.learningMaterial.dto.response;
+package capstone.capstone01.domain.learningmaterial.dto.response;
 
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

@@ -1,4 +1,4 @@
-package capstone.capstone01.domain.learningMaterial.domain;
+package capstone.capstone01.domain.learningmaterial.domain;
 
 import capstone.capstone01.global.domain.BaseEntity;
 import jakarta.persistence.*;

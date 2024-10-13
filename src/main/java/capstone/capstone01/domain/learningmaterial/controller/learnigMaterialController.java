@@ -1,4 +1,4 @@
-package capstone.capstone01.domain.learningMaterial.controller;
+package capstone.capstone01.domain.learningmaterial.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.RequestMapping;
