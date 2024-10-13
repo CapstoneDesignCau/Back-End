@@ -1,6 +1,6 @@
 package capstone.capstone01.domain.comment.domain;
 
-import capstone.capstone01.domain.imagepost.domain.ImagePost;
+import capstone.capstone01.domain.post.domain.Post;
 import capstone.capstone01.domain.user.domain.User;
 import capstone.capstone01.global.domain.BaseEntity;
 import jakarta.persistence.*;
@@ -21,9 +21,9 @@ public class Comment extends BaseEntity {
     @Column(name = "content", nullable = false)
     private String content;
 
-    @ManyToOne(targetEntity = ImagePost.class)
-    @JoinColumn(name = "imagePostId", nullable = false)
-    private ImagePost imagePost;
+    @ManyToOne(targetEntity = Post.class)
+    @JoinColumn(name = "postId", nullable = false)
+    private Post post;
 
     @ManyToOne(targetEntity = User.class)
     @JoinColumn(name = "userId", nullable = false)
@@ -41,8 +41,8 @@ public class Comment extends BaseEntity {
         this.isDeleted = isDeleted;
     }
 
-    public void setImagePost(ImagePost imagePost) {
-        this.imagePost = imagePost;
+    public void setPost(Post post) {
+        this.post = post;
     }
 
 }

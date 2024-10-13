@@ -1,6 +1,6 @@
 package capstone.capstone01.domain.like.domain;
 
-import capstone.capstone01.domain.imagepost.domain.ImagePost;
+import capstone.capstone01.domain.post.domain.Post;
 import capstone.capstone01.domain.user.domain.User;
 import capstone.capstone01.global.domain.BaseEntity;
 import jakarta.persistence.*;
@@ -11,16 +11,16 @@ import lombok.*;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
-public class ImagePostLike extends BaseEntity {
+public class PostLike extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "ImagePostLikeId")
+    @Column(name = "postLikeId")
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "imagePostId")
-    private ImagePost imagePost ;
+    @JoinColumn(name = "postId")
+    private Post post;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "userId")

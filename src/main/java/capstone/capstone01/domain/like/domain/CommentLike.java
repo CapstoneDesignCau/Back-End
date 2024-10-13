@@ -1,7 +1,6 @@
 package capstone.capstone01.domain.like.domain;
 
 import capstone.capstone01.domain.comment.domain.Comment;
-import capstone.capstone01.domain.imagepost.domain.ImagePost;
 import capstone.capstone01.domain.user.domain.User;
 import capstone.capstone01.global.domain.BaseEntity;
 import jakarta.persistence.*;

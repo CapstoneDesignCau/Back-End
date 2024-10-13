@@ -3,21 +3,21 @@ package capstone.capstone01.global.util.converter;
 import capstone.capstone01.domain.comment.domain.Comment;
 import capstone.capstone01.domain.comment.dto.request.CommentCreateRequestDto;
 import capstone.capstone01.domain.comment.dto.response.CommentResponseDto;
-import capstone.capstone01.domain.imagepost.domain.ImagePost;
+import capstone.capstone01.domain.post.domain.Post;
 import capstone.capstone01.domain.user.domain.User;
 
 
 public class CommentConverter {
 
-    public static Comment toComment(CommentCreateRequestDto requestDto, User writer, ImagePost imagePost) {
+    public static Comment toComment(CommentCreateRequestDto requestDto, User writer, Post post) {
         Comment comment = Comment.builder()
                 .content(requestDto.getContent())
                 .writer(writer)
-                .imagePost(imagePost)
+                .post(post)
                 .isDeleted(false)
                 .build();
 
-        imagePost.addComment(comment); // 양방향 매핑 설정
+        post.addComment(comment); // 양방향 매핑 설정
         return comment;
     }
 

@@ -1,4 +1,4 @@
-package capstone.capstone01.domain.imagepost.domain;
+package capstone.capstone01.domain.post.domain;
 
 import capstone.capstone01.domain.comment.domain.Comment;
 import capstone.capstone01.domain.user.domain.User;
@@ -14,15 +14,18 @@ import java.util.List;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
-public class ImagePost extends BaseEntity {
+public class Post extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "imagePostId")
+    @Column(name = "postId")
     private Long id;
 
     @Column(name = "title", nullable = false)
     private String title;
+
+    @Column(name = "content", nullable = false)
+    private String content;
 
     @ManyToOne(targetEntity = User.class)
     @JoinColumn(name = "userId", nullable = false)
@@ -34,7 +37,7 @@ public class ImagePost extends BaseEntity {
     @Builder.Default
     private Boolean isOpen = true;
 
-    @OneToMany(mappedBy = "imagePost", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Comment> comments = new ArrayList<>();
 
     @Column(name = "isDeleted")
@@ -51,7 +54,7 @@ public class ImagePost extends BaseEntity {
 
     public void addComment(Comment comment) {
         comments.add(comment);
-        comment.setImagePost(this);
+        comment.setPost(this);
     }
 
     public void removeComment(Comment comment) {
