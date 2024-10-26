@@ -18,7 +18,8 @@ public interface PostService {
 
     Page<PostSummaryResponseDto> getPosts(Pageable pageable);
 
-    void deletePost(String email, Long id);
+    Page<PostSummaryResponseDto> searchPostsByTitle(String title, Pageable pageable);
 
+    void deletePost(String email, Long id);
 
 }

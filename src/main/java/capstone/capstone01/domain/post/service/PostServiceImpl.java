@@ -77,6 +77,16 @@ public class PostServiceImpl implements PostService {
         return new PageImpl<>(postSummaryResponseDtos, pageable, posts.getTotalElements());
     }
 
+    @Override
+    @Transactional(readOnly = true)
+    public Page<PostSummaryResponseDto> searchPostsByTitle(String title, Pageable pageable) {
+        Page<Post> posts = postRepository.findByTitleContaining(title, pageable);
+        List<PostSummaryResponseDto> postSummaryResponseDtos = posts.stream()
+                .map(PostConverter::toPostSummaryResponseDto)
+                .collect(Collectors.toList());
+        return new PageImpl<>(postSummaryResponseDtos, pageable, posts.getTotalElements());
+    }
+
 
     @Override
     public void deletePost(String email, Long id) {

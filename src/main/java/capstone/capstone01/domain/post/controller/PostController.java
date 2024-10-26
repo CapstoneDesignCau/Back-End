@@ -69,7 +69,18 @@ public class PostController {
         Page<PostSummaryResponseDto> posts = postService.getPosts(pageable);
         return CustomApiResponse.of(SuccessStatus.POST_OK, posts);
     }
-    
+
+    @Operation(summary = "제목으로 게시물 검색", description = "제목으로 게시물 검색 API")
+    @ResponseStatus(value = HttpStatus.OK)
+    @GetMapping("/search")
+    public CustomApiResponse<Page<PostSummaryResponseDto>> searchPostsByTitle(
+            @RequestParam String title,
+            @PageableDefault(sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable
+    ) {
+        Page<PostSummaryResponseDto> posts = postService.searchPostsByTitle(title, pageable);
+        return CustomApiResponse.of(SuccessStatus.POST_OK, posts);
+    }
+
     @Operation(summary = "게시물 삭제", description = "게시물 삭제 API")
     @ResponseStatus(value = HttpStatus.OK)
     @DeleteMapping("/{post-id}")

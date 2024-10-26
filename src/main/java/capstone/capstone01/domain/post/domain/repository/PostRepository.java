@@ -18,4 +18,7 @@ public interface PostRepository extends JpaRepository<Post, Long> {
     @Query("SELECT p FROM Post p WHERE p.isDeleted = false AND p.createdAt >= :startDate ORDER BY p.likeCount DESC, p.createdAt DESC")
     List<Post> findTopPostsByLikeCount(@Param("startDate") LocalDateTime startDate, Pageable pageable);
 
+    @Query("SELECT p FROM Post p WHERE p.isDeleted = false AND p.title LIKE %:title% ORDER BY p.createdAt DESC")
+    Page<Post> findByTitleContaining(@Param("title") String title, Pageable pageable);
+
 }
