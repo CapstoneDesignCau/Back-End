@@ -4,6 +4,8 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Builder;
 import lombok.Getter;
 
+import java.time.LocalDateTime;
+
 @Getter
 @Builder
 public class CommentResponseDto {
@@ -19,5 +21,14 @@ public class CommentResponseDto {
 
     @Schema(description = "댓글 삭제 여부", example = "false")
     private Boolean isDeleted;
+
+    @Schema(description = "댓글 좋아요 수", example = "1")
+    private int likeCount;
+
+    @Schema(description = "댓글 작성일", example = "2024-01-01")
+    private LocalDateTime createdAt;
+
+    @Schema(description = "작성자 프로필 사진 URL", example ="http://example/123")
+    private String userProfileUrl;
 
 }

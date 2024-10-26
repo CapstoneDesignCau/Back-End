@@ -1,8 +1,13 @@
 package capstone.capstone01.domain.post.dto.response;
 
+import capstone.capstone01.domain.comment.dto.response.CommentResponseDto;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Builder;
 import lombok.Getter;
+import org.springframework.data.domain.Page;
+
+import java.time.LocalDateTime;
+import java.util.List;
 
 @Getter
 @Builder
@@ -20,10 +25,25 @@ public class PostResponseDto {
     @Schema(description = "작성자 닉네임", example = "개발자푸앙이")
     private String writerNickname;
 
+    @Schema(description = "작성자 프로필 이미지 URL", example = "http://example.com/profile.jpg")
+    private String writerProfileImageUrl;
+
     @Schema(description = "게시물 공개 여부", example = "true")
     private Boolean isOpen;
 
     @Schema(description = "게시물 삭제 여부", example = "false")
     private Boolean isDeleted;
+
+    @Schema(description = "게시물 작성일", example = "2023-01-01T00:00:00")
+    private LocalDateTime createdAt;
+
+    @Schema(description = "게시물 좋아요 수", example = "10")
+    private int likeCount;
+
+    @Schema(description = "게시물 댓글 수", example = "5")
+    private int commentCount;
+
+    @Schema(description = "댓글 목록")
+    private List<CommentResponseDto> comments;
 
 }
