@@ -1,5 +1,6 @@
 package capstone.capstone01.domain.user.domain;
 
+import capstone.capstone01.domain.storage.domain.FileSaveInfo;
 import capstone.capstone01.domain.user.domain.enums.Gender;
 import capstone.capstone01.domain.user.domain.enums.UserRole;
 import capstone.capstone01.domain.user.domain.enums.UserState;
@@ -21,7 +22,7 @@ public class User extends BaseEntity {
     @Column(name = "userId")
     private Long id;
 
-    @Column(name = "email", unique = true, length = 30, nullable = false)
+    @Column(name = "email", unique = true, length = 50, nullable = false)
     private String email;
 
     @Column(name = "password", nullable = false)
@@ -30,14 +31,15 @@ public class User extends BaseEntity {
     @Column(name = "name", length = 30, nullable = false)
     private String name;
 
-    @Column(name = "nickname", unique = true, nullable = false, length = 8)
+    @Column(name = "nickname", unique = true, nullable = false, length = 15)
     private String nickname;
 
     @Column(name = "birthday", nullable = false)
     private LocalDate birthday;
 
-    @Column(name = "profileImageUrl", length = 500)
-    private String profileImageUrl;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "profileImageId")
+    private FileSaveInfo profileImage;
 
     @Column(name = "gender", nullable = false)
     @Enumerated(EnumType.STRING)
@@ -59,8 +61,10 @@ public class User extends BaseEntity {
         }
     }
 
-    public void updateProfileImageUrl(final String profileImageUrl) {
-        this.profileImageUrl = profileImageUrl;
+    public void updateProfileImage(final FileSaveInfo profileImage) {
+        this.profileImage = profileImage;
     }
 
+    public void setPassword(String encode) {
+    }
 }

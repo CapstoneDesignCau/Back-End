@@ -1,8 +1,9 @@
 package capstone.capstone01.domain.user.controller;
 
-import capstone.capstone01.domain.user.dto.request.LoginRequestDto;
-import capstone.capstone01.domain.user.dto.request.UserSignUpRequestDto;
+import capstone.capstone01.domain.user.domain.enums.UserRole;
+import capstone.capstone01.domain.user.dto.request.*;
 import capstone.capstone01.domain.user.dto.response.LoginResponseDto;
+import capstone.capstone01.domain.user.dto.response.UserInfoResponseDto;
 import capstone.capstone01.domain.user.service.UserService;
 import capstone.capstone01.global.apipayload.CustomApiResponse;
 import capstone.capstone01.global.apipayload.code.status.SuccessStatus;
@@ -10,8 +11,11 @@ import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
-
+import org.springframework.web.multipart.MultipartFile;
 
 @RequiredArgsConstructor
 @RequestMapping("/api/user")
@@ -59,4 +63,77 @@ public class UserController {
         Boolean isEmailDuplicate = userService.isEmailDuplicate(email);
         return CustomApiResponse.of(SuccessStatus.USER_OK, isEmailDuplicate);
     }
+
+    @Operation(summary = "유저 역할 조회", description = "유저 역할 조회 API")
+    @ResponseStatus(value = HttpStatus.OK)
+    @GetMapping("/role")
+    public CustomApiResponse<UserRole> getUserRole() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String email = authentication.getName();
+
+        UserRole userRole = userService.getUserRole(email);
+        return CustomApiResponse.of(SuccessStatus.USER_OK, userRole);
+    }
+
+    @Operation(summary = "닉네임 업데이트", description = "사용자 닉네임 업데이트 API")
+    @ResponseStatus(value = HttpStatus.OK)
+    @PutMapping("/nickname")
+    public CustomApiResponse<Long> updateNickname(
+            @Valid @RequestBody NicknameUpdateRequestDto nicknameUpdateRequestDto
+    ) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String email = authentication.getName();
+
+        Long userId = userService.updateNickname(email, nicknameUpdateRequestDto);
+        return CustomApiResponse.of(SuccessStatus.USER_OK, userId);
+    }
+
+    @Operation(summary = "프로필 업데이트", description = "사용자 프로필 업데이트 API")
+    @ResponseStatus(value = HttpStatus.OK)
+    @PutMapping(value = "/update-profile", consumes = "multipart/form-data")
+    public CustomApiResponse<Long> updateProfile(
+            @RequestPart("profileImage") MultipartFile profileImage
+    ) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String email = authentication.getName();
+
+        Long userId = userService.updateProfile(email, profileImage);
+        return CustomApiResponse.of(SuccessStatus.USER_OK, userId);
+    }
+
+    @Operation(summary = "기본 프로필 이미지로 설정", description = "기본 프로필 이미지로 설정 API")
+    @ResponseStatus(value = HttpStatus.OK)
+    @PutMapping("/default-profile")
+    public CustomApiResponse<Long> setDefaultProfileImage() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String email = authentication.getName();
+
+        Long userId = userService.setDefaultProfileImage(email);
+        return CustomApiResponse.of(SuccessStatus.USER_OK, userId);
+    }
+
+    @Operation(summary = "비밀번호 업데이트", description = "비밀번호 업데이트 API")
+    @ResponseStatus(value = HttpStatus.OK)
+    @PutMapping("/password")
+    public CustomApiResponse<Long> updatePassword(
+            @Valid @RequestBody PasswordUpdateRequestDto passwordUpdateRequestDto
+    ) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String email = authentication.getName();
+
+        Long userId = userService.updatePassword(email, passwordUpdateRequestDto);
+        return CustomApiResponse.of(SuccessStatus.USER_OK, userId);
+    }
+
+    @Operation(summary = "유저 정보 조회", description = "유저 정보 조회 API")
+    @ResponseStatus(value = HttpStatus.OK)
+    @GetMapping("/info")
+    public CustomApiResponse<UserInfoResponseDto> getUserInfo() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String email = authentication.getName();
+
+        UserInfoResponseDto userInfo = userService.getUserInfo(email);
+        return CustomApiResponse.of(SuccessStatus.USER_OK, userInfo);
+    }
+
 }
