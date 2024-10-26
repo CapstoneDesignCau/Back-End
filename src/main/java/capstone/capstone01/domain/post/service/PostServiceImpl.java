@@ -14,6 +14,8 @@ import capstone.capstone01.global.exception.specific.UserException;
 import capstone.capstone01.global.util.converter.PostConverter;
 import capstone.capstone01.global.util.value.StaticValue;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -64,6 +66,17 @@ public class PostServiceImpl implements PostService {
                 .map(PostConverter::toPostSummaryResponseDto)
                 .collect(Collectors.toList());
     }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Page<PostSummaryResponseDto> getPosts(Pageable pageable) {
+        Page<Post> posts = postRepository.findAllByOrderByCreatedAtDesc(pageable);
+        List<PostSummaryResponseDto> postSummaryResponseDtos = posts.stream()
+                .map(PostConverter::toPostSummaryResponseDto)
+                .collect(Collectors.toList());
+        return new PageImpl<>(postSummaryResponseDtos, pageable, posts.getTotalElements());
+    }
+
 
     @Override
     public void deletePost(String email, Long id) {

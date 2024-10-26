@@ -6,9 +6,14 @@ import capstone.capstone01.domain.post.dto.response.PostSummaryResponseDto;
 import capstone.capstone01.domain.post.service.PostService;
 import capstone.capstone01.global.apipayload.CustomApiResponse;
 import capstone.capstone01.global.apipayload.code.status.SuccessStatus;
+import capstone.capstone01.global.util.value.StaticValue;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -55,6 +60,16 @@ public class PostController {
         return CustomApiResponse.of(SuccessStatus.POST_OK, topPosts);
     }
 
+    @Operation(summary = "게시물 목록 조회", description = "게시물 목록 조회 API")
+    @ResponseStatus(value = HttpStatus.OK)
+    @GetMapping("/list")
+    public CustomApiResponse<Page<PostSummaryResponseDto>> getPosts(
+            @PageableDefault(sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable
+    ) {
+        Page<PostSummaryResponseDto> posts = postService.getPosts(pageable);
+        return CustomApiResponse.of(SuccessStatus.POST_OK, posts);
+    }
+    
     @Operation(summary = "게시물 삭제", description = "게시물 삭제 API")
     @ResponseStatus(value = HttpStatus.OK)
     @DeleteMapping("/{post-id}")
