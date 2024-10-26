@@ -2,6 +2,7 @@ package capstone.capstone01.domain.post.controller;
 
 import capstone.capstone01.domain.post.dto.request.PostCreateRequestDto;
 import capstone.capstone01.domain.post.dto.response.PostResponseDto;
+import capstone.capstone01.domain.post.dto.response.PostSummaryResponseDto;
 import capstone.capstone01.domain.post.service.PostService;
 import capstone.capstone01.global.apipayload.CustomApiResponse;
 import capstone.capstone01.global.apipayload.code.status.SuccessStatus;
@@ -12,6 +13,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RequiredArgsConstructor
 @RequestMapping("/api/post")
@@ -33,7 +36,7 @@ public class PostController {
         return CustomApiResponse.of(SuccessStatus.POST_CREATED, postId);
     }
 
-    @Operation(summary = "사진 게시물 조회", description = "사진 게시물 조회 API")
+    @Operation(summary = "특정 게시물 조회", description = "특정 게시물 조회 API")
     @ResponseStatus(value = HttpStatus.OK)
     @GetMapping("/{post-id}")
     public CustomApiResponse<PostResponseDto> getPost(@PathVariable("post-id") Long id) {
@@ -44,7 +47,15 @@ public class PostController {
         return CustomApiResponse.of(SuccessStatus.POST_OK, postResponseDto);
     }
 
-    @Operation(summary = "사진 게시물 삭제", description = "사진 게시물 삭제 API")
+    @Operation(summary = "특정 기간동안 가장 좋아요 수가 많은 게시물 조회", description = "특정 기간 동안 가장 좋아요 수가 많은 게시물 조회 API")
+    @ResponseStatus(value = HttpStatus.OK)
+    @GetMapping("/top")
+    public CustomApiResponse<List<PostSummaryResponseDto>> getTopPosts() {
+        List<PostSummaryResponseDto> topPosts = postService.getTopPosts();
+        return CustomApiResponse.of(SuccessStatus.POST_OK, topPosts);
+    }
+
+    @Operation(summary = "게시물 삭제", description = "게시물 삭제 API")
     @ResponseStatus(value = HttpStatus.OK)
     @DeleteMapping("/{post-id}")
     public CustomApiResponse<Void> deletePost(@PathVariable("post-id") Long id) {

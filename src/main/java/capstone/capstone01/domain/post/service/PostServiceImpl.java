@@ -4,6 +4,7 @@ import capstone.capstone01.domain.post.domain.Post;
 import capstone.capstone01.domain.post.domain.repository.PostRepository;
 import capstone.capstone01.domain.post.dto.request.PostCreateRequestDto;
 import capstone.capstone01.domain.post.dto.response.PostResponseDto;
+import capstone.capstone01.domain.post.dto.response.PostSummaryResponseDto;
 import capstone.capstone01.domain.user.domain.User;
 import capstone.capstone01.domain.user.domain.enums.UserRole;
 import capstone.capstone01.domain.user.domain.repository.UserRepository;
@@ -11,9 +12,16 @@ import capstone.capstone01.global.apipayload.code.status.ErrorStatus;
 import capstone.capstone01.global.exception.specific.PostException;
 import capstone.capstone01.global.exception.specific.UserException;
 import capstone.capstone01.global.util.converter.PostConverter;
+import capstone.capstone01.global.util.value.StaticValue;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.time.LocalDateTime;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -43,6 +51,18 @@ public class PostServiceImpl implements PostService {
         } else {
             throw new PostException(ErrorStatus.POST_READ_NOT_ALLOWED);
         }
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<PostSummaryResponseDto> getTopPosts() {
+        LocalDateTime startDate = LocalDateTime.now().minusDays(StaticValue.RECENT_DAYS);
+        Pageable pageable = PageRequest.of(0, StaticValue.TOP_POSTS_LIMIT);
+        List<Post> topPosts = postRepository.findTopPostsByLikeCount(startDate, pageable);
+
+        return topPosts.stream()
+                .map(PostConverter::toPostSummaryResponseDto)
+                .collect(Collectors.toList());
     }
 
     @Override

@@ -2,6 +2,9 @@ package capstone.capstone01.domain.post.service;
 
 import capstone.capstone01.domain.post.dto.request.PostCreateRequestDto;
 import capstone.capstone01.domain.post.dto.response.PostResponseDto;
+import capstone.capstone01.domain.post.dto.response.PostSummaryResponseDto;
+
+import java.util.List;
 
 public interface PostService {
 
@@ -9,6 +12,9 @@ public interface PostService {
 
     PostResponseDto getPost(String email, Long id);
 
+    List<PostSummaryResponseDto> getTopPosts();
+
     void deletePost(String email, Long id);
+
 
 }
