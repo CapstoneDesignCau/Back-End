@@ -11,7 +11,7 @@ import java.util.List;
 public enum FileCategory {
     USER_PROFILE(
             "user/profile",
-            20 * 1024 * 1024L, // 20MB
+            10 * 1024 * 1024L, // 10MB
             1,
             List.of("jpg", "jpeg","jfif", "png", "gif", "bmp")
     ),
