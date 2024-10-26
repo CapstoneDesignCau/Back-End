@@ -4,13 +4,14 @@ import capstone.capstone01.domain.user.domain.User;
 import capstone.capstone01.domain.user.dto.request.UserSignUpRequestDto;
 import capstone.capstone01.domain.user.dto.response.LoginResponseDto;
 import capstone.capstone01.domain.user.domain.enums.UserRole;
+import capstone.capstone01.domain.user.dto.response.UserInfoResponseDto;
 
 public class UserConverter {
 
-    public static User toUser(UserSignUpRequestDto requestDto,String EncodedPassword){
+    public static User toUser(UserSignUpRequestDto requestDto, String encodedPassword) {
         return User.builder()
                 .email(requestDto.getEmail())
-                .password(EncodedPassword)
+                .password(encodedPassword)
                 .name(requestDto.getName())
                 .nickname(requestDto.getNickname())
                 .gender(requestDto.getGender())
@@ -25,4 +26,15 @@ public class UserConverter {
                 .build();
     }
 
+    public static UserInfoResponseDto toUserInfoResponseDto(User user, String defaultProfileImageUrl) {
+        return UserInfoResponseDto.builder()
+                .id(user.getId())
+                .profileImageUrl(user.getProfileImage() != null ? user.getProfileImage().getFileUrl() : defaultProfileImageUrl)
+                .email(user.getEmail())
+                .name(user.getName())
+                .nickname(user.getNickname())
+                .birthday(user.getBirthday())
+                .gender(user.getGender())
+                .build();
+    }
 }
