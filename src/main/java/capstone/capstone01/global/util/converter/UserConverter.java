@@ -6,6 +6,8 @@ import capstone.capstone01.domain.user.dto.response.LoginResponseDto;
 import capstone.capstone01.domain.user.domain.enums.UserRole;
 import capstone.capstone01.domain.user.dto.response.UserInfoResponseDto;
 
+import static capstone.capstone01.global.util.value.StaticValue.DEFAULT_PROFILE_IMAGE_URL;
+
 public class UserConverter {
 
     public static User toUser(UserSignUpRequestDto requestDto, String encodedPassword) {
@@ -26,10 +28,10 @@ public class UserConverter {
                 .build();
     }
 
-    public static UserInfoResponseDto toUserInfoResponseDto(User user, String defaultProfileImageUrl) {
+    public static UserInfoResponseDto toUserInfoResponseDto(User user) {
         return UserInfoResponseDto.builder()
                 .id(user.getId())
-                .profileImageUrl(user.getProfileImage() != null ? user.getProfileImage().getFileUrl() : defaultProfileImageUrl)
+                .profileImageUrl(user.getProfileImage() != null ? user.getProfileImage().getFileUrl() : DEFAULT_PROFILE_IMAGE_URL)
                 .email(user.getEmail())
                 .name(user.getName())
                 .nickname(user.getNickname())
