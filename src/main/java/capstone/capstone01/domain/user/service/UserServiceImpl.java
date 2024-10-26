@@ -37,9 +37,6 @@ public class UserServiceImpl implements UserService {
     @Value("${spring.jwt.expired-time}")
     private Long expiredMs; //JWT 토큰 수명
 
-    @Value("${default.profile.image.url}")
-    private String defaultProfileImageUrl; // 기본 프로필 이미지 주소
-
     @Override
     public Long signUp(UserSignUpRequestDto userSignUpRequestDto) {
         validateUserCreation(userSignUpRequestDto.getEmail(), userSignUpRequestDto.getNickname());
@@ -171,7 +168,7 @@ public class UserServiceImpl implements UserService {
             throw new UserException(ErrorStatus.USER_NOT_FOUND);
         }
 
-        return UserConverter.toUserInfoResponseDto(user, defaultProfileImageUrl);
+        return UserConverter.toUserInfoResponseDto(user);
     }
 
     private void validateUserCreation(String email, String nickname) {
