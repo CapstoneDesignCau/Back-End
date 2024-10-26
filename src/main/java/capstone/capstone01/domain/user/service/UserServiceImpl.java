@@ -1,10 +1,14 @@
 package capstone.capstone01.domain.user.service;
 
+import capstone.capstone01.domain.storage.domain.FileSaveInfo;
+import capstone.capstone01.domain.storage.domain.enums.FileCategory;
+import capstone.capstone01.domain.storage.service.StorageService;
 import capstone.capstone01.domain.user.domain.User;
-import capstone.capstone01.domain.user.dto.request.LoginRequestDto;
-import capstone.capstone01.domain.user.dto.request.UserSignUpRequestDto;
+import capstone.capstone01.domain.user.domain.enums.UserRole;
+import capstone.capstone01.domain.user.dto.request.*;
 import capstone.capstone01.domain.user.dto.response.LoginResponseDto;
 import capstone.capstone01.domain.user.domain.repository.UserRepository;
+import capstone.capstone01.domain.user.dto.response.UserInfoResponseDto;
 import capstone.capstone01.global.apipayload.code.status.ErrorStatus;
 import capstone.capstone01.global.auth.JwtTokenUtil;
 import capstone.capstone01.global.exception.specific.UserException;
@@ -14,6 +18,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Optional;
 
@@ -23,6 +28,7 @@ import java.util.Optional;
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
+    private final StorageService storageService;
     private final BCryptPasswordEncoder passwordEncoder;
 
     @Value("${spring.jwt.secret}")
@@ -30,6 +36,9 @@ public class UserServiceImpl implements UserService {
 
     @Value("${spring.jwt.expired-time}")
     private Long expiredMs; //JWT 토큰 수명
+
+    @Value("${default.profile.image.url}")
+    private String defaultProfileImageUrl; // 기본 프로필 이미지 주소
 
     @Override
     public Long signUp(UserSignUpRequestDto userSignUpRequestDto) {
@@ -73,7 +82,6 @@ public class UserServiceImpl implements UserService {
         return getUserByEmail(email);
     }
 
-
     @Override
     @Transactional(readOnly = true)
     public Boolean isNicknameDuplicate(String nickname) {
@@ -84,6 +92,86 @@ public class UserServiceImpl implements UserService {
     @Transactional(readOnly = true)
     public Boolean isEmailDuplicate(String email) {
         return userRepository.existsByEmail(email);
+    }
+
+    @Override
+    public Long updateNickname(String email, NicknameUpdateRequestDto nicknameUpdateRequestDto) {
+        User user = getLoginUserByEmail(email);
+        if (user == null) {
+            throw new UserException(ErrorStatus.USER_NOT_FOUND);
+        }
+        user.updateNickname(nicknameUpdateRequestDto.getNickname());
+        userRepository.save(user);
+        return user.getId();
+    }
+
+    @Override
+    public Long updateProfile(String email, MultipartFile profileImage) {
+        User user = getLoginUserByEmail(email);
+        if (user == null) {
+            throw new UserException(ErrorStatus.USER_NOT_FOUND);
+        }
+
+        if (profileImage != null) {
+            FileSaveInfo fileSaveInfo = storageService.updateFile(user.getProfileImage(), profileImage, FileCategory.USER_PROFILE);
+            user.updateProfileImage(fileSaveInfo);
+        }
+
+        userRepository.save(user);
+        return user.getId();
+    }
+
+    @Override
+    public Long setDefaultProfileImage(String email) {
+        User user = getLoginUserByEmail(email);
+        if (user == null) {
+            throw new UserException(ErrorStatus.USER_NOT_FOUND);
+        }
+
+        if (user.getProfileImage() != null) {
+            storageService.deleteFile(user.getProfileImage());
+            user.updateProfileImage(null);
+        }
+
+        userRepository.save(user);
+        return user.getId();
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public UserRole getUserRole(String email) {
+        User user = getLoginUserByEmail(email);
+        if (user == null) {
+            throw new UserException(ErrorStatus.USER_NOT_FOUND);
+        }
+        return user.getRole();
+    }
+
+    @Override
+    public Long updatePassword(String email, PasswordUpdateRequestDto passwordUpdateRequestDto) {
+        User user = getLoginUserByEmail(email);
+        if (user == null) {
+            throw new UserException(ErrorStatus.USER_NOT_FOUND);
+        }
+
+        if (!passwordEncoder.matches(passwordUpdateRequestDto.getCurrentPassword(), user.getPassword())) {
+            throw new UserException(ErrorStatus.USER_INCORRECT_PW);
+        }
+
+        user.setPassword(passwordEncoder.encode(passwordUpdateRequestDto.getNewPassword()));
+        userRepository.save(user);
+        return user.getId();
+
+    }
+
+    @Override
+    public UserInfoResponseDto getUserInfo(String email) {
+        User user = getLoginUserByEmail(email);
+        if (user == null) {
+            throw new UserException(ErrorStatus.USER_NOT_FOUND);
+        }
+
+        return UserConverter.toUserInfoResponseDto(user, defaultProfileImageUrl);
     }
 
     private void validateUserCreation(String email, String nickname) {
