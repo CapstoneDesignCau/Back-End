@@ -30,16 +30,18 @@ public class CommentServiceImpl implements CommentService {
     @Override
     public Long createComment(String email, CommentCreateRequestDto commentCreateRequestDto) {
         User user = findUserByEmail(email);
-        Post post = findPostById(commentCreateRequestDto.getImagePostId());
+        Post post = findPostById(commentCreateRequestDto.getPostId());
 
         Comment comment = CommentConverter.toComment(commentCreateRequestDto, user, post);
+        post.addComment(comment);
         commentRepository.save(comment);
+        postRepository.save(post);
         return comment.getId();
     }
 
     @Override
     @Transactional(readOnly = true)
-    public CommentResponseDto getComment(String email, Long id) {
+    public CommentResponseDto getComment(Long id) {
         Comment comment = findCommentById(id);
 
         return CommentConverter.toCommentResponseDto(comment);
@@ -52,9 +54,10 @@ public class CommentServiceImpl implements CommentService {
 
         if (user.getRole() == UserRole.ADMIN || comment.getWriter().getEmail().equals(email)) {
             Post post = comment.getPost();
-            post.removeComment(comment); // Ensure bidirectional mapping
+            post.removeComment(comment);
             comment.delete(true);
             commentRepository.save(comment);
+            postRepository.save(post);
         } else {
             throw new CommentException(ErrorStatus.COMMENT_DELETE_NOT_ALLOWED);
         }

@@ -41,14 +41,17 @@ public class LikeServiceImpl implements LikeService {
             postLike = getPostLike(user, postId);
             if (postLike.getIsDeleted()) {
                 postLike.setIsDeleted(false);
+                post.incrementLikeCount(); // 좋아요 수 증가
             } else {
                 throw new LikeException(ErrorStatus.POST_ALREADY_LIKE);
             }
         } else {
             postLike = LikeConverter.toImagePostLike(user, post);
+            post.incrementLikeCount(); // 좋아요 수 증가
         }
 
         postLikeRepository.save(postLike);
+        postRepository.save(post);
     }
 
     @Override
@@ -62,7 +65,11 @@ public class LikeServiceImpl implements LikeService {
         }
 
         postLike.setIsDeleted(true);
+        Post post = getPostById(postId);
+        post.decrementLikeCount(); // 좋아요 수 감소
+
         postLikeRepository.save(postLike);
+        postRepository.save(post);
     }
 
     @Override
@@ -75,14 +82,17 @@ public class LikeServiceImpl implements LikeService {
             commentLike = getCommentLike(user, commentId);
             if (commentLike.getIsDeleted()) {
                 commentLike.setIsDeleted(false);
+                comment.incrementLikeCount(); // 좋아요 수 증가
             } else {
                 throw new LikeException(ErrorStatus.COMMENT_ALREADY_LIKE);
             }
         } else {
             commentLike = LikeConverter.toCommentLike(user, comment);
+            comment.incrementLikeCount(); // 좋아요 수 증가
         }
 
         commentLikeRepository.save(commentLike);
+        commentRepository.save(comment);
     }
 
     @Override
@@ -96,7 +106,11 @@ public class LikeServiceImpl implements LikeService {
         }
 
         commentLike.setIsDeleted(true);
+        Comment comment = getCommentById(commentId);
+        comment.decrementLikeCount(); // 좋아요 수 감소
+
         commentLikeRepository.save(commentLike);
+        commentRepository.save(comment);
     }
 
     private User getUserByEmail(String email) {

@@ -24,14 +24,13 @@ public class Post extends BaseEntity {
     @Column(name = "title", nullable = false)
     private String title;
 
+    @Lob
     @Column(name = "content", nullable = false)
     private String content;
 
     @ManyToOne(targetEntity = User.class)
     @JoinColumn(name = "userId", nullable = false)
     private User writer;
-
-    //TODO: file_save_info 필드에 추가(중간고사 이후 작업 예정)
 
     @Column(name="isOpen", nullable = false)
     @Builder.Default
@@ -44,6 +43,14 @@ public class Post extends BaseEntity {
     @Builder.Default
     private Boolean isDeleted = false;
 
+    @Column(name = "commentCount", nullable = false)
+    @Builder.Default
+    private int commentCount = 0;
+
+    @Column(name = "likeCount", nullable = false)
+    @Builder.Default
+    private int likeCount = 0;
+
     public void update(String title) {
         this.title = title;
     }
@@ -55,9 +62,21 @@ public class Post extends BaseEntity {
     public void addComment(Comment comment) {
         comments.add(comment);
         comment.setPost(this);
+        this.commentCount = comments.size();
     }
 
     public void removeComment(Comment comment) {
         comments.remove(comment);
+        this.commentCount = comments.size();
+    }
+
+    public void incrementLikeCount() {
+        this.likeCount++;
+    }
+
+    public void decrementLikeCount() {
+        if (this.likeCount > 0) {
+            this.likeCount--;
+        }
     }
 }

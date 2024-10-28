@@ -33,6 +33,10 @@ public class Comment extends BaseEntity {
     @Builder.Default
     private Boolean isDeleted = false;
 
+    @Column(name = "likeCount", nullable = false)
+    @Builder.Default
+    private int likeCount = 0;
+
     public void update(String content) {
         this.content = content;
     }
@@ -43,6 +47,16 @@ public class Comment extends BaseEntity {
 
     public void setPost(Post post) {
         this.post = post;
+    }
+
+    public void incrementLikeCount() {
+        this.likeCount++;
+    }
+
+    public void decrementLikeCount() {
+        if (this.likeCount > 0) {
+            this.likeCount--;
+        }
     }
 
 }
