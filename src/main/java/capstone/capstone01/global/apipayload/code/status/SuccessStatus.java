@@ -28,6 +28,8 @@ public enum SuccessStatus implements BaseCode {
     HASHTAG_OK(HttpStatus.OK, "HASHTAG_2000", "Hashtag 관련 요청이 성공적으로 수행되었습니다."),
     HASHTAG_CREATED(HttpStatus.CREATED, "HASHTAG_2001", "Hashtag 관련 요청이 성공적으로 생성되었습니다."),
 
+    IMAGE_EVALUATION_CREATED(HttpStatus.OK, "IMAGE_EVALUATION_2000", "ImageEvaluation 관련 요청이 성공적으로 수행되었습니다."),
+
 
     ;
 
