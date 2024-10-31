@@ -5,8 +5,10 @@ import capstone.capstone01.domain.user.dto.request.UserSignUpRequestDto;
 import capstone.capstone01.domain.user.dto.response.LoginResponseDto;
 import capstone.capstone01.domain.user.domain.enums.UserRole;
 import capstone.capstone01.domain.user.dto.response.UserInfoResponseDto;
+import capstone.capstone01.global.util.value.StaticValue;
 
 import static capstone.capstone01.global.util.value.StaticValue.DEFAULT_PROFILE_IMAGE_URL;
+
 
 public class UserConverter {
 

@@ -16,5 +16,7 @@ public class Hashtag extends BaseEntity{
     @Column(name = "hashtagId")
     private Long id;
 
+    @Column(name = "hashtag", nullable = false)
+    private String hashtag;
 
 }
