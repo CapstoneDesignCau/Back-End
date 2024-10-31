@@ -21,7 +21,7 @@ public class Feedback extends BaseEntity {
     private String content;
 
     @ManyToOne
-    @JoinColumn(name = "learningMaterialId", nullable = false)
+    @JoinColumn(name = "learningMaterialId")
     private LearningMaterial learningMaterial;
 
 }
