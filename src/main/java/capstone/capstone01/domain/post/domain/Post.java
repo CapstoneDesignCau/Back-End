@@ -37,6 +37,7 @@ public class Post extends BaseEntity {
     private Boolean isOpen = true;
 
     @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true)
+    @Builder.Default
     private List<Comment> comments = new ArrayList<>();
 
     @Column(name = "isDeleted")
