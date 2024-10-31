@@ -1,0 +1,23 @@
+package capstone.capstone01.global.util.converter;
+
+import capstone.capstone01.domain.feedback.domain.Feedback;
+import capstone.capstone01.domain.feedback.domain.dto.request.FeedbackResponseDto;
+import capstone.capstone01.domain.learningmaterial.domain.LearningMaterial;
+
+public class FeedbackConverter {
+
+    public static Feedback toFeedback(String content, LearningMaterial learningMaterial) {
+        return Feedback.builder()
+                .content(content)
+                .learningMaterial(learningMaterial)
+                .build();
+    }
+
+    public static FeedbackResponseDto toFeedbackResponseDto(Feedback feedback) {
+        return FeedbackResponseDto.builder()
+                .feedbackId(feedback.getId())
+                .content(feedback.getContent())
+                .materialId(feedback.getLearningMaterial().getId())
+                .build();
+    }
+}
