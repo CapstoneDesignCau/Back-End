@@ -19,11 +19,9 @@ public class LearningMaterial extends BaseEntity {
     @Column(name = "learningMaterialId")
     private Long id;
 
-    @OneToMany(mappedBy = "learningMaterial")
-    private List<LearningHashtag> learningMaterialHashtags;
-
     // Todo: 다른 필드들 정의
 
-
+    @OneToMany(mappedBy = "learningMaterial", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<LearningHashtag> learningHashtags;
 
 }

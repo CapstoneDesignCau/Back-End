@@ -25,5 +25,4 @@ public class LearningHashtag extends BaseEntity {
     @ManyToOne
     @JoinColumn(name = "hashtagId", nullable = false)
     private Hashtag hashtag;
-
 }

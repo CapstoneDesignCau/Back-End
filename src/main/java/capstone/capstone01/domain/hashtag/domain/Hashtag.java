@@ -22,7 +22,6 @@ public class Hashtag extends BaseEntity {
     @Column(name = "hashtag", nullable = false)
     private String hashtag;
 
-    @OneToMany(mappedBy = "hashtag")
+    @OneToMany(mappedBy = "hashtag", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<LearningHashtag> learningHashtags;
-
 }
