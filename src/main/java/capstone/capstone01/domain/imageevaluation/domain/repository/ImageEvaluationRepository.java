@@ -1,5 +1,8 @@
 package capstone.capstone01.domain.imageevaluation.domain.repository;
 
-public interface ImageEvaluationRepository {
+import capstone.capstone01.domain.imageevaluation.domain.ImageEvaluation;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface ImageEvaluationRepository  extends JpaRepository<ImageEvaluation, Long> {
 
 }
