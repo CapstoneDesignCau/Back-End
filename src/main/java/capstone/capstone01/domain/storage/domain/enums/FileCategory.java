@@ -22,6 +22,13 @@ public enum FileCategory {
             List.of("jpg", "jpeg","jfif", "png", "gif", "bmp",
                     "doc", "docx", "xls", "xlsx", "ppt", "pptx", "pdf", "hwp")
     ),
+    EVALUATION(
+            "evaluation",
+            10 * 1024 * 1024L, // 10MB
+            5,
+            List.of("jpg", "jpeg","jfif", "png", "gif", "bmp")
+
+    ),
     ETC(
             "etc",
             20 * 1024 * 1024L, // 20MB

@@ -1,6 +1,6 @@
-package capstone.capstone01.domain.feedback.domain;
+package capstone.capstone01.domain.learnighashtag.domain;
 
-import capstone.capstone01.domain.imageevaluation.domain.ImageEvaluation;
+import capstone.capstone01.domain.hashtag.domain.Hashtag;
 import capstone.capstone01.domain.learningmaterial.domain.LearningMaterial;
 import capstone.capstone01.global.domain.BaseEntity;
 import jakarta.persistence.*;
@@ -11,22 +11,18 @@ import lombok.*;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
-public class Feedback extends BaseEntity {
+public class LearningHashtag extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "feedbackId")
+    @Column(name = "learningHashtagId")
     private Long id;
-
-    @Column(name = "content", nullable = false)
-    private String content;
 
     @ManyToOne
     @JoinColumn(name = "learningMaterialId", nullable = false)
     private LearningMaterial learningMaterial;
 
     @ManyToOne
-    @JoinColumn(name = "imageEvaluationId", nullable = false)
-    private ImageEvaluation imageEvaluation;
-
+    @JoinColumn(name = "hashtagId", nullable = false)
+    private Hashtag hashtag;
 }

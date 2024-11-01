@@ -1,4 +1,4 @@
-package capstone.capstone01.domain.hashtag.domain;
+package capstone.capstone01.domain.learningmaterial.domain;
 
 import capstone.capstone01.domain.learnighashtag.domain.LearningHashtag;
 import capstone.capstone01.global.domain.BaseEntity;
@@ -12,16 +12,16 @@ import java.util.List;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
-public class Hashtag extends BaseEntity {
+public class LearningMaterial extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "hashtagId")
+    @Column(name = "learningMaterialId")
     private Long id;
 
-    @Column(name = "hashtag", nullable = false)
-    private String hashtag;
+    // Todo: 다른 필드들 정의
 
-    @OneToMany(mappedBy = "hashtag", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "learningMaterial", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<LearningHashtag> learningHashtags;
+
 }
