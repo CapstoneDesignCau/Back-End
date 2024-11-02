@@ -30,6 +30,9 @@ public enum SuccessStatus implements BaseCode {
 
     IMAGE_EVALUATION_CREATED(HttpStatus.OK, "IMAGE_EVALUATION_2000", "ImageEvaluation 관련 요청이 성공적으로 수행되었습니다."),
 
+    MATERIAL_OK(HttpStatus.OK, "Material_2000", "Material 관련 요청이 성공적으로 수행되었습니다."),
+    MATERIAL_CREATED(HttpStatus.CREATED, "Material_2001", "Material 관련 요청이 성공적으로 생성되었습니다."),
+
 
     ;
 
