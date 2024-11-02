@@ -13,6 +13,7 @@ import capstone.capstone01.global.apipayload.code.status.ErrorStatus;
 import capstone.capstone01.global.auth.JwtTokenUtil;
 import capstone.capstone01.global.exception.specific.UserException;
 import capstone.capstone01.global.util.converter.UserConverter;
+import capstone.capstone01.global.util.value.StaticValue;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -169,6 +170,18 @@ public class UserServiceImpl implements UserService {
         }
 
         return UserConverter.toUserInfoResponseDto(user);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public String getProfileImageUrl(String email) {
+        User user = getLoginUserByEmail(email);
+        if (user == null) {
+            throw new UserException(ErrorStatus.USER_NOT_FOUND);
+        }
+
+        FileSaveInfo profileImage = user.getProfileImage();
+        return profileImage != null ? profileImage.getFileUrl() : StaticValue.DEFAULT_PROFILE_IMAGE_URL;
     }
 
     private void validateUserCreation(String email, String nickname) {

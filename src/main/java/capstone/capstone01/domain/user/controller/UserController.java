@@ -90,7 +90,7 @@ public class UserController {
 
     @Operation(summary = "프로필 업데이트", description = "사용자 프로필 업데이트 API")
     @ResponseStatus(value = HttpStatus.OK)
-    @PutMapping(value = "/update-profile", consumes = "multipart/form-data")
+    @PutMapping(value = "/profile", consumes = "multipart/form-data")
     public CustomApiResponse<Long> updateProfile(
             @RequestPart("profileImage") MultipartFile profileImage
     ) {
@@ -103,7 +103,7 @@ public class UserController {
 
     @Operation(summary = "기본 프로필 이미지로 설정", description = "기본 프로필 이미지로 설정 API")
     @ResponseStatus(value = HttpStatus.OK)
-    @PutMapping("/default-profile")
+    @PutMapping("/profile/default")
     public CustomApiResponse<Long> setDefaultProfileImage() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String email = authentication.getName();
@@ -134,6 +134,17 @@ public class UserController {
 
         UserInfoResponseDto userInfo = userService.getUserInfo(email);
         return CustomApiResponse.of(SuccessStatus.USER_OK, userInfo);
+    }
+
+    @Operation(summary = "프로필 이미지 URL 조회", description = "프로필 이미지 URL 조회 API")
+    @ResponseStatus(value = HttpStatus.OK)
+    @GetMapping("/profile/image")
+    public CustomApiResponse<String> getProfileImageUrl() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String email = authentication.getName();
+
+        String profileImageUrl = userService.getProfileImageUrl(email);
+        return CustomApiResponse.of(SuccessStatus.USER_OK, profileImageUrl);
     }
 
 }
