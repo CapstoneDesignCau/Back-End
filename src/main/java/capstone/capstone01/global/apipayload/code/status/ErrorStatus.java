@@ -37,6 +37,7 @@ public enum ErrorStatus implements BaseErrorCode {
 
     //학습자료 관련 에러
     LEARNING_MATERIAL_NOT_FOUND(HttpStatus.BAD_REQUEST, "LEARNING_MATERIAL_4001", "해당하는 학습자료가 존재하지 않습니다."),
+    LEARNING_MATERIAL_DELETED(HttpStatus.BAD_REQUEST, "LEARNING_MATERIAL_4002", "삭제된 학습자료입니다."),
 
     //이미지 평가 관련 에러
     IMAGE_EVALUATION_NOT_FOUND(HttpStatus.BAD_REQUEST, "IMAGE_EVALUATION_4001", "해당하는 사진평가가 없거나, 평가를 확인할 권한이 없습니다."),

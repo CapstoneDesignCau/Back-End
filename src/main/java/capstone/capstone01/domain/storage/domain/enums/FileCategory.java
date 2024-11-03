@@ -11,13 +11,13 @@ import java.util.List;
 public enum FileCategory {
     USER_PROFILE(
             "user/profile",
-            10 * 1024 * 1024L, // 10MB
+            5 * 1024 * 1024L, // 5MB
             1,
             List.of("jpg", "jpeg","jfif", "png", "gif", "bmp")
     ),
     POST(
             "post",
-            20 * 1024 * 1024L, // 20MB
+            10 * 1024 * 1024L, // 10MB
             5,
             List.of("jpg", "jpeg","jfif", "png", "gif", "bmp",
                     "doc", "docx", "xls", "xlsx", "ppt", "pptx", "pdf", "hwp")
@@ -28,6 +28,12 @@ public enum FileCategory {
             5,
             List.of("jpg", "jpeg","jfif", "png", "gif", "bmp")
 
+    ),
+    MATERIAL(
+            "material",
+            10 * 1024 * 1024L, // 20MB
+            10,
+            List.of("jpg", "jpeg","jfif", "png", "gif", "bmp")
     ),
     ETC(
             "etc",
