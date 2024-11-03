@@ -5,6 +5,7 @@ import capstone.capstone01.domain.learnighashtag.domain.LearningHashtag;
 import capstone.capstone01.domain.learningmaterial.domain.LearningMaterial;
 import capstone.capstone01.domain.learningmaterial.dto.request.LearningMaterialCreateRequestDto;
 import capstone.capstone01.domain.learningmaterial.dto.response.LearningMaterialResponseDto;
+import capstone.capstone01.domain.learningmaterial.dto.response.LearningMaterialSummaryDto;
 import capstone.capstone01.domain.storage.domain.FileSaveInfo;
 import capstone.capstone01.domain.storage.dto.response.FileResponseDto;
 
@@ -49,4 +50,14 @@ public class LearningMaterialConverter {
                 .images(imageResponseDtos)
                 .build();
     }
+
+    public static LearningMaterialSummaryDto toLearningMaterialSummaryDto(LearningMaterial learningMaterial) {
+        FileResponseDto image = learningMaterial.getImages().isEmpty() ? null : StorageConverter.toFileResponseDto(learningMaterial.getImages().get(0));
+        return LearningMaterialSummaryDto.builder()
+                .id(learningMaterial.getId())
+                .title(learningMaterial.getTitle())
+                .image(image)
+                .build();
+    }
+
 }

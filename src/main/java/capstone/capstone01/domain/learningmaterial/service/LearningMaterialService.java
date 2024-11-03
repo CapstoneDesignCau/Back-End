@@ -2,6 +2,7 @@ package capstone.capstone01.domain.learningmaterial.service;
 
 import capstone.capstone01.domain.learningmaterial.dto.request.LearningMaterialCreateRequestDto;
 import capstone.capstone01.domain.learningmaterial.dto.response.LearningMaterialResponseDto;
+import capstone.capstone01.domain.learningmaterial.dto.response.LearningMaterialSummaryDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,5 +18,7 @@ public interface LearningMaterialService {
    void restoreLearningMaterial(Long id);
 
    LearningMaterialResponseDto getLearningMaterial(String email, Long id);
+
+   List<LearningMaterialSummaryDto> getLearningMaterials();
 
 }

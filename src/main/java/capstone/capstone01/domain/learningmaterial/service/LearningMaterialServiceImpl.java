@@ -7,6 +7,7 @@ import capstone.capstone01.domain.learningmaterial.domain.LearningMaterial;
 import capstone.capstone01.domain.learningmaterial.domain.repository.LearningMaterialRepository;
 import capstone.capstone01.domain.learningmaterial.dto.request.LearningMaterialCreateRequestDto;
 import capstone.capstone01.domain.learningmaterial.dto.response.LearningMaterialResponseDto;
+import capstone.capstone01.domain.learningmaterial.dto.response.LearningMaterialSummaryDto;
 import capstone.capstone01.domain.storage.domain.FileSaveInfo;
 import capstone.capstone01.domain.storage.domain.enums.FileCategory;
 import capstone.capstone01.domain.storage.service.StorageService;
@@ -18,7 +19,10 @@ import capstone.capstone01.global.exception.specific.LearningMaterialException;
 import capstone.capstone01.global.exception.specific.UserException;
 import capstone.capstone01.global.util.converter.HashtagConverter;
 import capstone.capstone01.global.util.converter.LearningMaterialConverter;
+import capstone.capstone01.global.util.value.StaticValue;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -89,6 +93,16 @@ public class LearningMaterialServiceImpl implements LearningMaterialService {
 //        }
 
         return LearningMaterialConverter.toLearningMaterialResponseDto(learningMaterial);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<LearningMaterialSummaryDto> getLearningMaterials() {
+        Pageable pageable = PageRequest.of(0, StaticValue.LEARNING_MATERIAL);
+        List<LearningMaterial> materials = learningMaterialRepository.findTopByIsDeletedFalseOrderByUpdatedAtDesc(pageable);
+        return materials.stream()
+                .map(LearningMaterialConverter::toLearningMaterialSummaryDto)
+                .collect(Collectors.toList());
     }
 
     private Hashtag getOrCreateHashtag(String tagName) {

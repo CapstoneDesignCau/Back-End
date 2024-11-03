@@ -20,6 +20,8 @@ public class StaticValue {
 
     public static final int RECENT_DAYS = 7; // 최근 기간의 길이
 
+    public static final int LEARNING_MATERIAL = 8; // 한 페이지에 게시 가능한 최대 학습자료 개수
+
     //static 변수에 @Value 를 바로 사용시 올바르게 값이 주입되지 않기 때문에 우회하여 주입.
     @PostConstruct
     private void init() {

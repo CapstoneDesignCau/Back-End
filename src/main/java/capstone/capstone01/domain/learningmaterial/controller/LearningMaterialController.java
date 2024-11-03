@@ -2,6 +2,7 @@ package capstone.capstone01.domain.learningmaterial.controller;
 
 import capstone.capstone01.domain.learningmaterial.dto.request.LearningMaterialCreateRequestDto;
 import capstone.capstone01.domain.learningmaterial.dto.response.LearningMaterialResponseDto;
+import capstone.capstone01.domain.learningmaterial.dto.response.LearningMaterialSummaryDto;
 import capstone.capstone01.domain.learningmaterial.service.LearningMaterialService;
 import capstone.capstone01.global.apipayload.CustomApiResponse;
 import capstone.capstone01.global.apipayload.code.status.SuccessStatus;
@@ -63,5 +64,13 @@ public class LearningMaterialController {
 
         LearningMaterialResponseDto material = learningMaterialService.getLearningMaterial(email, id);
         return CustomApiResponse.of(SuccessStatus.MATERIAL_OK, material);
+    }
+
+    @Operation(summary = "삭제되지 않은 학습 자료 목록 조회", description = "삭제되지 않은 학습 자료 목록 조회 API")
+    @ResponseStatus(HttpStatus.OK)
+    @GetMapping("/list")
+    public CustomApiResponse<List<LearningMaterialSummaryDto>> getLearningMaterials() {
+        List<LearningMaterialSummaryDto> materials = learningMaterialService.getLearningMaterials();
+        return CustomApiResponse.of(SuccessStatus.MATERIAL_OK, materials);
     }
 }
