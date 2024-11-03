@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -27,9 +28,9 @@ public class HashtagServiceImpl implements HashtagService {
         }
 
         //동일한 이름의 해쉬태그가 이미 존재하는 지 확인
-        Hashtag existingHashtag = hashtagRepository.findByHashtag(name);
-        if (existingHashtag != null) {
-            return existingHashtag.getId();
+        Optional<Hashtag> existingHashtag = hashtagRepository.findByHashtag(name);
+        if (existingHashtag.isPresent()) {
+            return existingHashtag.get().getId();
         }
 
         Hashtag hashtag = HashtagConverter.toHashtag(name);

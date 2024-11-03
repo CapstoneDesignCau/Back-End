@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
@@ -18,6 +19,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableWebSecurity
 @Configuration
 @RequiredArgsConstructor
+@EnableMethodSecurity
 public class SecurityConfig {
 
     private final UserService userService;
@@ -34,6 +36,7 @@ public class SecurityConfig {
         //Todo: Cors 정책 설정 추후 변경 필요
         httpSecurity
                 .httpBasic(AbstractHttpConfigurer::disable)
+                .formLogin(AbstractHttpConfigurer::disable)
                 .csrf(AbstractHttpConfigurer::disable)
                 .sessionManagement((session) -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .cors(AbstractHttpConfigurer::disable);
@@ -44,7 +47,8 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/swagger", "/swagger-ui.html", "/swagger-ui/**", "/api-docs", "/api-docs/**", "/v3/api-docs/**")
                         .permitAll()
-                        .requestMatchers("/", "/api/user/signUp", "/api/user/login", "/api/user/check-duplicate/**").permitAll() // 다음 API 는 권한 상관없이 항상허용
+                        .requestMatchers("/", "/api/user/signUp", "/api/user/login", "/api/user/check-duplicate/**"
+                        ,"/api/post/top").permitAll() // 다음 API 는 권한 상관없이 항상허용
                         .anyRequest().authenticated()) //그 외의 API 는 JWT 로 인증된 권한 필요
                 .exceptionHandling(exception -> exception
                         .accessDeniedHandler(accessDeniedHandler) // 403 에러 처리

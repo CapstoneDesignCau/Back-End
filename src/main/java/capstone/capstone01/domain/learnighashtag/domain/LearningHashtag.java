@@ -25,4 +25,15 @@ public class LearningHashtag extends BaseEntity {
     @ManyToOne
     @JoinColumn(name = "hashtagId", nullable = false)
     private Hashtag hashtag;
+
+    public static LearningHashtag createLearningHashtag(LearningMaterial learningMaterial, Hashtag hashtag) {
+        LearningHashtag learningHashtag = LearningHashtag.builder()
+                .learningMaterial(learningMaterial)
+                .hashtag(hashtag)
+                .build();
+        learningMaterial.getLearningHashtags().add(learningHashtag);
+        hashtag.getLearningHashtags().add(learningHashtag);
+        return learningHashtag;
+    }
+
 }

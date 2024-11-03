@@ -32,4 +32,6 @@ public interface UserService {
     Long updatePassword(String email, PasswordUpdateRequestDto passwordUpdateRequestDto);
 
     UserInfoResponseDto getUserInfo(String email);
+
+    String getProfileImageUrl(String email);
 }

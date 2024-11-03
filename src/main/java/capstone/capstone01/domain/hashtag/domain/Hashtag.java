@@ -5,6 +5,7 @@ import capstone.capstone01.global.domain.BaseEntity;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -22,6 +23,9 @@ public class Hashtag extends BaseEntity {
     @Column(name = "hashtag", nullable = false)
     private String hashtag;
 
+    @Setter
     @OneToMany(mappedBy = "hashtag", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<LearningHashtag> learningHashtags;
+    @Builder.Default
+    private List<LearningHashtag> learningHashtags = new ArrayList<>();
+
 }

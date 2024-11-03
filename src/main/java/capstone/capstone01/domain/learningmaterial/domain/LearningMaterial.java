@@ -5,6 +5,7 @@ import capstone.capstone01.global.domain.BaseEntity;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -19,9 +20,25 @@ public class LearningMaterial extends BaseEntity {
     @Column(name = "learningMaterialId")
     private Long id;
 
-    // Todo: 다른 필드들 정의
+    @Column(name = "title", nullable = false)
+    private String title;
 
+    @Column(name = "isDeleted", nullable = false)
+    @Builder.Default
+    private Boolean isDeleted = false;
+
+    @Column(name = "referenceInfo", nullable = false)
+    private String referenceInfo;
+
+    @Column(name = "tips", nullable = false)
+    private String tips;
+
+    @Column(name = "prettyManner", nullable = false)
+    private String prettyManner;
+
+    @Setter
+    @Builder.Default
     @OneToMany(mappedBy = "learningMaterial", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<LearningHashtag> learningHashtags;
+    private List<LearningHashtag> learningHashtags = new ArrayList<>();
 
 }
