@@ -14,6 +14,8 @@ public class StaticValue {
 
     public static final Integer DEFAULT_PAGE_SIZE = 10; // 각 페이지가 반환하는 개수
 
+    public static final int TOP_RECENT_EVALUATION_LIMIT = 5; // 가장 최근의 평가 사진 정보 반환 하는 개수
+
     public static final int TOP_POSTS_LIMIT = 3; // 좋아요를 가장 많이 받은 게시글 반환 개수
 
     public static final int RECENT_DAYS = 7; // 최근 기간의 길이
