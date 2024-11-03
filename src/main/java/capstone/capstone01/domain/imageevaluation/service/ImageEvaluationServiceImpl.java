@@ -13,6 +13,7 @@ import capstone.capstone01.global.apipayload.code.status.ErrorStatus;
 import capstone.capstone01.global.exception.specific.UserException;
 import capstone.capstone01.global.util.converter.ImageEvaluationConverter;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,11 +24,13 @@ import java.util.stream.Collectors;
 
 import static capstone.capstone01.global.util.value.StaticValue.TOP_RECENT_EVALUATION_LIMIT;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 @Transactional
 public class ImageEvaluationServiceImpl implements ImageEvaluationService {
 
+    private final AsyncImageEvaluationService asyncImageEvaluationService;
     private final ImageEvaluationRepository imageEvaluationRepository;
     private final UserRepository userRepository;
     private final StorageService storageService;
@@ -44,6 +47,13 @@ public class ImageEvaluationServiceImpl implements ImageEvaluationService {
                 .collect(Collectors.toList());
 
         imageEvaluationRepository.saveAll(imageEvaluations);
+
+        //효율을 위해 비동기적으로 이미지 평가를 수행
+        for (int i = 0; i < imageFiles.size(); i++) {
+            asyncImageEvaluationService.processImageEvaluationAsync(imageEvaluations.get(i), imageFiles.get(i));
+        }
+
+        log.info("Image Evaluation Created Successfully");
 
         return imageEvaluations.stream()
                 .map(ImageEvaluation::getId)
