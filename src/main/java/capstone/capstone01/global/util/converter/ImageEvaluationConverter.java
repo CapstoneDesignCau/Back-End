@@ -27,9 +27,7 @@ public class ImageEvaluationConverter {
                 .feedbacks(imageEvaluation.getFeedbacks().stream()
                         .map(FeedbackConverter::toFeedbackResponseDto)
                         .collect(Collectors.toList()))
-                .evaluationImageUrl(imageEvaluation.getEvaluationImage().getFileUrl())
-                .fileName(imageEvaluation.getEvaluationImage().getOriginFileName())
-                .extension(imageEvaluation.getEvaluationImage().getExtension())
+                .evaluationImage(StorageConverter.toFileResponseDto(imageEvaluation.getEvaluationImage()))
                 .createdAt(imageEvaluation.getCreatedAt())
                 .build();
     }
@@ -37,12 +35,9 @@ public class ImageEvaluationConverter {
     public static ImageEvaluationSummaryDto toImageEvaluationSummaryDto(ImageEvaluation evaluation) {
         return ImageEvaluationSummaryDto.builder()
                 .id(evaluation.getId())
-                .fileName(evaluation.getEvaluationImage().getOriginFileName())
-                .extension(evaluation.getEvaluationImage().getExtension())
-                .imageUrl(evaluation.getEvaluationImage().getFileUrl())
+                .evaluationImage(StorageConverter.toFileResponseDto(evaluation.getEvaluationImage()))
                 .createdAt(evaluation.getCreatedAt())
                 .isFinish(evaluation.getIsFinish())
                 .build();
     }
-
 }

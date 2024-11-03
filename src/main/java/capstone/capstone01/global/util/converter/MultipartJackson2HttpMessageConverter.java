@@ -1,4 +1,4 @@
-package capstone.capstone01.global.config;
+package capstone.capstone01.global.util.converter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.http.MediaType;
