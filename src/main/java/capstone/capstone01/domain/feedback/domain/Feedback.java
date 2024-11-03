@@ -22,10 +22,12 @@ public class Feedback extends BaseEntity {
     private String content;
 
     @ManyToOne
+    @Setter
     @JoinColumn(name = "learningMaterialId", nullable = false)
     private LearningMaterial learningMaterial;
 
     @ManyToOne
+    @Setter
     @JoinColumn(name = "imageEvaluationId", nullable = false)
     private ImageEvaluation imageEvaluation;
 
