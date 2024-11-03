@@ -28,4 +28,7 @@ public class PostSummaryResponseDto {
     @Schema(description = "게시물 댓글 수", example = "5")
     private int commentCount;
 
+    @Schema(description = "파일 존재 여부", example = "true")
+    private Boolean hasFiles;
+
 }
