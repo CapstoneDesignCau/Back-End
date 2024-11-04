@@ -5,6 +5,9 @@ import capstone.capstone01.domain.post.domain.repository.PostRepository;
 import capstone.capstone01.domain.post.dto.request.PostCreateRequestDto;
 import capstone.capstone01.domain.post.dto.response.PostResponseDto;
 import capstone.capstone01.domain.post.dto.response.PostSummaryResponseDto;
+import capstone.capstone01.domain.storage.domain.FileSaveInfo;
+import capstone.capstone01.domain.storage.domain.enums.FileCategory;
+import capstone.capstone01.domain.storage.service.StorageService;
 import capstone.capstone01.domain.user.domain.User;
 import capstone.capstone01.domain.user.domain.enums.UserRole;
 import capstone.capstone01.domain.user.domain.repository.UserRepository;
@@ -20,8 +23,10 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -32,11 +37,18 @@ public class PostServiceImpl implements PostService {
 
     private final PostRepository postRepository;
     private final UserRepository userRepository;
+    private final StorageService storageService;
 
     @Override
-    public Long createPost(String email, PostCreateRequestDto postCreateRequestDto) {
+    public Long createPost(String email, PostCreateRequestDto postCreateRequestDto, List<MultipartFile> files) {
         User user = findUserByEmail(email);
-        Post post = PostConverter.toPost(postCreateRequestDto, user);
+
+        List<FileSaveInfo> savedFiles = new ArrayList<>();
+        if(files != null && !files.isEmpty()){
+            savedFiles = storageService.saveFileList(files, FileCategory.POST);
+        }
+
+        Post post = PostConverter.toPost(postCreateRequestDto, user, savedFiles);
 
         postRepository.save(post);
         return post.getId();

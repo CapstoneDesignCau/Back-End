@@ -35,6 +35,13 @@ public enum ErrorStatus implements BaseErrorCode {
     COMMENT_NOT_FOUND(HttpStatus.BAD_REQUEST, "COMMENT_4001", "해당하는 댓글이 없습니다."),
     COMMENT_DELETE_NOT_ALLOWED(HttpStatus.UNAUTHORIZED, "COMMENT_4002", "해당 댓글을 삭제할 권한이 없습니다."),
 
+    //학습자료 관련 에러
+    LEARNING_MATERIAL_NOT_FOUND(HttpStatus.BAD_REQUEST, "LEARNING_MATERIAL_4001", "해당하는 학습자료가 존재하지 않습니다."),
+    LEARNING_MATERIAL_DELETED(HttpStatus.BAD_REQUEST, "LEARNING_MATERIAL_4002", "삭제된 학습자료입니다."),
+
+    //이미지 평가 관련 에러
+    IMAGE_EVALUATION_NOT_FOUND(HttpStatus.BAD_REQUEST, "IMAGE_EVALUATION_4001", "해당하는 사진평가가 없거나, 평가를 확인할 권한이 없습니다."),
+
     //좋아요 관련 에러
     POST_ALREADY_LIKE(HttpStatus.BAD_REQUEST, "LIKE_4001", "해당하는 게시글은 이미 좋아요인 상태입니다."),
     POST_LIKE_ALREADY_DELETED(HttpStatus.BAD_REQUEST, "LIKE_4002", "해당하는 게시글은 이미 좋아요가 취소 된 상태입니다."),

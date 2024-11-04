@@ -1,6 +1,7 @@
 package capstone.capstone01.domain.post.domain;
 
 import capstone.capstone01.domain.comment.domain.Comment;
+import capstone.capstone01.domain.storage.domain.FileSaveInfo;
 import capstone.capstone01.domain.user.domain.User;
 import capstone.capstone01.global.domain.BaseEntity;
 import jakarta.persistence.*;
@@ -32,13 +33,18 @@ public class Post extends BaseEntity {
     @JoinColumn(name = "userId", nullable = false)
     private User writer;
 
-    @Column(name="isOpen", nullable = false)
+    @Column(name = "isOpen", nullable = false)
     @Builder.Default
     private Boolean isOpen = true;
 
     @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true)
     @Builder.Default
     private List<Comment> comments = new ArrayList<>();
+
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "postId")
+    @Builder.Default
+    private List<FileSaveInfo> files = new ArrayList<>();
 
     @Column(name = "isDeleted")
     @Builder.Default
@@ -79,5 +85,13 @@ public class Post extends BaseEntity {
         if (this.likeCount > 0) {
             this.likeCount--;
         }
+    }
+
+    public void addFile(FileSaveInfo file) {
+        files.add(file);
+    }
+
+    public void removeFile(FileSaveInfo file) {
+        files.remove(file);
     }
 }

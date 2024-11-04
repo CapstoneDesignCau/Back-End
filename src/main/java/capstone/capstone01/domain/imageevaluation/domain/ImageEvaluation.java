@@ -7,6 +7,7 @@ import capstone.capstone01.global.domain.BaseEntity;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -21,9 +22,11 @@ public class ImageEvaluation extends BaseEntity {
     @Column(name = "imageEvaluationId")
     private Long id;
 
+    @Setter
     @Column(name = "score", nullable = false)
     private int score;
 
+    @Setter
     @Column(name = "isFinish", nullable = false)
     @Builder.Default
     private Boolean isFinish = false;
@@ -33,10 +36,15 @@ public class ImageEvaluation extends BaseEntity {
     private User user;
 
     @OneToMany(mappedBy = "imageEvaluation", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Feedback> feedbacks;
+    @Builder.Default
+    private List<Feedback> feedbacks = new ArrayList<>();
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "evaluationImageId", nullable = false)
     private FileSaveInfo evaluationImage;
 
+    public void addFeedback(Feedback feedback) {
+        feedbacks.add(feedback);
+        feedback.setImageEvaluation(this);
+    }
 }

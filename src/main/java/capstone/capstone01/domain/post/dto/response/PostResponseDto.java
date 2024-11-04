@@ -1,6 +1,7 @@
 package capstone.capstone01.domain.post.dto.response;
 
 import capstone.capstone01.domain.comment.dto.response.CommentResponseDto;
+import capstone.capstone01.domain.storage.dto.response.FileResponseDto;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Builder;
 import lombok.Getter;
@@ -42,6 +43,9 @@ public class PostResponseDto {
 
     @Schema(description = "게시물 댓글 수", example = "5")
     private int commentCount;
+
+    @Schema(description = "파일 목록")
+    private List<FileResponseDto> files;
 
     @Schema(description = "댓글 목록")
     private List<CommentResponseDto> comments;

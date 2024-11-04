@@ -3,6 +3,7 @@ package capstone.capstone01.global.util.converter;
 import capstone.capstone01.domain.storage.domain.FileSaveInfo;
 import capstone.capstone01.domain.storage.domain.enums.FileCategory;
 import capstone.capstone01.domain.storage.domain.enums.FileInfo;
+import capstone.capstone01.domain.storage.dto.response.FileResponseDto;
 
 import java.util.Map;
 
@@ -18,4 +19,13 @@ public class StorageConverter {
                 .fileCategory(fileCategory)
                 .build();
     }
+
+    public static FileResponseDto toFileResponseDto(FileSaveInfo fileSaveInfo) {
+        return FileResponseDto.builder()
+                .fileUrl(fileSaveInfo.getFileUrl())
+                .fileName(fileSaveInfo.getOriginFileName())
+                .extension(fileSaveInfo.getExtension())
+                .build();
+    }
+
 }

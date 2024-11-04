@@ -8,6 +8,9 @@ import capstone.capstone01.global.apipayload.CustomApiResponse;
 import capstone.capstone01.global.apipayload.code.status.SuccessStatus;
 import capstone.capstone01.global.util.value.StaticValue;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -18,6 +21,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -30,14 +34,17 @@ public class PostController {
 
     @Operation(summary = "게시물 생성", description = "게시물 생성 API")
     @ResponseStatus(value = HttpStatus.CREATED)
-    @PostMapping("")
+    @PostMapping(value = "", consumes = {"multipart/form-data"})
     public CustomApiResponse<Long> createPost(
-            @Valid @RequestBody PostCreateRequestDto postCreateRequestDto
+            @Parameter(description = "게시물 정보", content = @Content(mediaType = "application/json", schema = @Schema(implementation = PostCreateRequestDto.class)))
+            @Valid @RequestPart("post") PostCreateRequestDto postCreateRequestDto,
+            @Parameter(description = "파일 목록", content = @Content(mediaType = "multipart/form-data"))
+            @RequestPart(value = "files", required = false) List<MultipartFile> files
     ) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String email = authentication.getName(); // 로그인한 사용자의 이메일(ID)를 가져옴.
 
-        Long postId = postService.createPost(email, postCreateRequestDto);
+        Long postId = postService.createPost(email, postCreateRequestDto, files);
         return CustomApiResponse.of(SuccessStatus.POST_CREATED, postId);
     }
 
