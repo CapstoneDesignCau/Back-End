@@ -30,9 +30,11 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
 
-    //DB 의존성
+    // H2 Database (테스트용)
     runtimeOnly 'com.h2database:h2'
-    runtimeOnly 'com.mysql:mysql-connector-j'
+
+    // MySQL Connector
+    implementation 'mysql:mysql-connector-java:8.0.26'
 
     //Lombok 의존성
     compileOnly 'org.projectlombok:lombok'
