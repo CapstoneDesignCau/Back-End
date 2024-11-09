@@ -31,7 +31,10 @@ public class LearningMaterialCreateRequestDto {
     @Schema(description = "사진 예쁘게 찍는 방법", example = "사진 예쁘게 찍는 방법")
     private String prettyManner;
 
-    @Schema(description = "해시태그 목록", example = "[\"tag1\", \"tag2\"]")
-    private List<String> hashtags;
+    @NotBlank(message = "학습자료 관련 키워드를 입력해주세요.")
+    @Schema(description = "사진 예쁘게 찍는 방법", example = "사진 예쁘게 찍는 방법")
+    private String keyword;
+
+
 
 }

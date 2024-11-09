@@ -27,6 +27,9 @@ public class LearningMaterialResponseDto {
     @Schema(description = "사진 예쁘게 찍는 방법", example = "사진 예쁘게 찍는 방법")
     private String prettyManner;
 
+    @Schema(description = "키워드", example= "구도 자연광 피사체")
+    private String keyWord;
+
     @Schema(description = "삭제 여부", example = "false")
     private Boolean isDeleted;
 
