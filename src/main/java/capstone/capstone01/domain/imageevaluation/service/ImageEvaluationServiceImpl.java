@@ -19,10 +19,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import static capstone.capstone01.global.util.value.StaticValue.TOP_RECENT_EVALUATION_LIMIT;
+import static capstone.capstone01.global.util.value.StaticValue.TOP_TODAY_EVALUATION_LIMIT;
 
 @Slf4j
 @Service
@@ -36,7 +38,7 @@ public class ImageEvaluationServiceImpl implements ImageEvaluationService {
     private final StorageService storageService;
 
     @Override
-    public List<Long> createImageEvaluations(String email, List<MultipartFile> imageFiles) {
+    public List<ImageEvaluationSummaryDto> createImageEvaluations(String email, List<MultipartFile> imageFiles) {
         User user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new UserException(ErrorStatus.USER_NOT_FOUND));
 
@@ -48,7 +50,7 @@ public class ImageEvaluationServiceImpl implements ImageEvaluationService {
 
         imageEvaluationRepository.saveAll(imageEvaluations);
 
-        //효율을 위해 비동기적으로 이미지 평가를 수행
+        // 효율을 위해 비동기적으로 이미지 평가를 수행
         for (int i = 0; i < imageFiles.size(); i++) {
             asyncImageEvaluationService.processImageEvaluationAsync(imageEvaluations.get(i), imageFiles.get(i));
         }
@@ -56,7 +58,7 @@ public class ImageEvaluationServiceImpl implements ImageEvaluationService {
         log.info("Image Evaluation Created Successfully");
 
         return imageEvaluations.stream()
-                .map(ImageEvaluation::getId)
+                .map(ImageEvaluationConverter::toImageEvaluationSummaryDto)
                 .collect(Collectors.toList());
     }
 
@@ -72,6 +74,22 @@ public class ImageEvaluationServiceImpl implements ImageEvaluationService {
                 .map(ImageEvaluationConverter::toImageEvaluationSummaryDto)
                 .collect(Collectors.toList());
     }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<ImageEvaluationSummaryDto> getTodayImageEvaluations(String email) {
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new UserException(ErrorStatus.USER_NOT_FOUND));
+
+        LocalDate today = LocalDate.now();
+        List<ImageEvaluation> evaluations = imageEvaluationRepository.findByUserAndCreatedAtBetweenOrderByCreatedAtDesc(
+                user, today.atStartOfDay(), today.plusDays(1).atStartOfDay(), PageRequest.of(0, TOP_TODAY_EVALUATION_LIMIT));
+
+        return evaluations.stream()
+                .map(ImageEvaluationConverter::toImageEvaluationSummaryDto)
+                .collect(Collectors.toList());
+    }
+
 
     @Override
     @Transactional(readOnly = true)

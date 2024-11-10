@@ -5,6 +5,7 @@ import capstone.capstone01.domain.user.domain.User;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -15,5 +16,7 @@ public interface ImageEvaluationRepository extends JpaRepository<ImageEvaluation
     Optional<ImageEvaluation> findByIdAndUser(Long id, User user);
 
     List<ImageEvaluation> findByUser(User user);
+
+    List<ImageEvaluation> findByUserAndCreatedAtBetweenOrderByCreatedAtDesc(User user, LocalDateTime start, LocalDateTime end, Pageable pageable);
 
 }

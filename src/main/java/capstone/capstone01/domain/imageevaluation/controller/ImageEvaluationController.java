@@ -26,15 +26,15 @@ public class ImageEvaluationController {
     @Operation(summary = "이미지 리스트들 평가 생성", description = "이미지 리스트들 평가 생성 API")
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping(value = "", consumes = "multipart/form-data")
-    public CustomApiResponse<List<Long>> createImageEvaluations(
+    public CustomApiResponse<List<ImageEvaluationSummaryDto>> createImageEvaluations(
             @RequestParam("images") List<MultipartFile> imageFiles
     ) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String email = authentication.getName();
 
-        List<Long> imageEvaluationIds = imageEvaluationService.createImageEvaluations(email, imageFiles);
+        List<ImageEvaluationSummaryDto> imageEvaluationSummaries = imageEvaluationService.createImageEvaluations(email, imageFiles);
 
-        return CustomApiResponse.of(SuccessStatus.IMAGE_EVALUATION_CREATED, imageEvaluationIds);
+        return CustomApiResponse.of(SuccessStatus.IMAGE_EVALUATION_CREATED, imageEvaluationSummaries);
     }
 
     @Operation(summary = "특정 이미지 평가 조회", description = "특정 이미지 평가 조회 API")
@@ -46,6 +46,17 @@ public class ImageEvaluationController {
 
         ImageEvaluationResponseDto evaluation = imageEvaluationService.getImageEvaluation(email, id);
         return CustomApiResponse.of(SuccessStatus.IMAGE_EVALUATION_OK, evaluation);
+    }
+
+    @Operation(summary = "오늘 올린 이미지 평가 조회", description = "오늘 올린 평가 사진 최대 5개 조회 API")
+    @ResponseStatus(HttpStatus.OK)
+    @GetMapping("/list/today")
+    public CustomApiResponse<List<ImageEvaluationSummaryDto>> getTodayImageEvaluations() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String email = authentication.getName();
+
+        List<ImageEvaluationSummaryDto> todayEvaluations = imageEvaluationService.getTodayImageEvaluations(email);
+        return CustomApiResponse.of(SuccessStatus.IMAGE_EVALUATION_OK, todayEvaluations);
     }
 
     @Operation(summary = "최근 5개의 이미지 평가 조회", description = "가장 최근에 생성된 본인의 5개의 이미지 평가 조회 API")
