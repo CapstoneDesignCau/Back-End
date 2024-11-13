@@ -20,7 +20,7 @@ public class StaticValue {
 
     public static final int TOP_POSTS_LIMIT = 3; // 좋아요를 가장 많이 받은 게시글 반환 개수
 
-    public static final int RECENT_DAYS = 7; // 최근 기간의 길이
+    public static final int RECENT_DAYS = 30; // 최근 기간의 길이
 
     public static final int LEARNING_MATERIAL = 8; // 한 페이지에 게시 가능한 최대 학습자료 개수
 
