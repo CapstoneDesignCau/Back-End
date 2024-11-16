@@ -14,7 +14,9 @@ import capstone.capstone01.global.exception.specific.UserException;
 import capstone.capstone01.global.util.converter.ImageEvaluationConverter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -114,6 +116,17 @@ public class ImageEvaluationServiceImpl implements ImageEvaluationService {
         return evaluations.stream()
                 .map(ImageEvaluationConverter::toImageEvaluationSummaryDto)
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Page<ImageEvaluationSummaryDto> getUploadedImages(String email, Pageable pageable) {
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new UserException(ErrorStatus.USER_NOT_FOUND));
+
+        Page<ImageEvaluation> evaluations = imageEvaluationRepository.findByUser(user, pageable);
+
+        return evaluations.map(ImageEvaluationConverter::toImageEvaluationSummaryDto);
     }
     
 }

@@ -7,6 +7,10 @@ import capstone.capstone01.global.apipayload.CustomApiResponse;
 import capstone.capstone01.global.apipayload.code.status.SuccessStatus;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -79,6 +83,19 @@ public class ImageEvaluationController {
 
         List<ImageEvaluationSummaryDto> evaluations = imageEvaluationService.getAllImageEvaluations(email);
         return CustomApiResponse.of(SuccessStatus.IMAGE_EVALUATION_OK, evaluations);
+    }
+
+    @Operation(summary = "내가 평가를 요청한 이미지 목록 조회", description = "내가 평가를 요청한 이미지 목록 조회 API")
+    @ResponseStatus(value = HttpStatus.OK)
+    @GetMapping("/list")
+    public CustomApiResponse<Page<ImageEvaluationSummaryDto>> getUploadedImages(
+            @PageableDefault(sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable
+    ) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String email = authentication.getName();
+
+        Page<ImageEvaluationSummaryDto> images = imageEvaluationService.getUploadedImages(email, pageable);
+        return CustomApiResponse.of(SuccessStatus.IMAGE_EVALUATION_OK, images);
     }
 
 }
