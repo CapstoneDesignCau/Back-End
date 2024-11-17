@@ -1,6 +1,9 @@
 package capstone.capstone01.domain.photorank.controller;
 
+
 import capstone.capstone01.domain.photorank.dto.request.PhotoRankCreateRequestDto;
+import capstone.capstone01.domain.photorank.dto.request.PhotoRankUpdateRequestDto;
+import capstone.capstone01.domain.photorank.dto.response.PhotoRankResponseDto;
 import capstone.capstone01.domain.photorank.service.PhotoRankService;
 import capstone.capstone01.global.apipayload.CustomApiResponse;
 import capstone.capstone01.global.apipayload.code.status.SuccessStatus;
@@ -38,5 +41,22 @@ public class PhotoRankController {
         return CustomApiResponse.of(SuccessStatus.PHOTO_RANK_CREATED, photoRankIds);
     }
 
+    @Operation(summary = "사진 랭크 업데이트", description = "사진 랭크 업데이트 API")
+    @PreAuthorize("hasRole('ADMIN')")
+    @ResponseStatus(value = HttpStatus.OK)
+    @PutMapping("/updateCounts")
+    public CustomApiResponse<Void> updatePhotoRankCounts(
+            @Valid @RequestBody PhotoRankUpdateRequestDto photoRankUpdateRequestDto
+    ) {
+        photoRankService.updatePhotoRankCounts(photoRankUpdateRequestDto);
+        return CustomApiResponse.of(SuccessStatus.PHOTO_RANK_OK, null);
+    }
 
+    @Operation(summary = "사진 랭크 조회", description = "오늘 날짜 기준으로 사진 랭크 조회 API")
+    @ResponseStatus(value = HttpStatus.OK)
+    @GetMapping("/today")
+    public CustomApiResponse<List<PhotoRankResponseDto>> getPhotoRanks() {
+        List<PhotoRankResponseDto> photoRanks = photoRankService.getPhotoRanks();
+        return CustomApiResponse.of(SuccessStatus.PHOTO_RANK_OK, photoRanks);
+    }
 }

@@ -26,9 +26,11 @@ public class PhotoRank extends BaseEntity {
     @Column(name = "endDate", nullable = false)
     private LocalDate endDate;
 
+    @Setter
     @Column(name = "appearanceCount", nullable = false)
     private int appearanceCount;
 
+    @Setter
     @Column(name = "selectedCount", nullable = false)
     private int selectedCount;
 

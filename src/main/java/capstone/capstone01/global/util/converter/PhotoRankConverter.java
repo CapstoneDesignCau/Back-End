@@ -2,7 +2,9 @@ package capstone.capstone01.global.util.converter;
 
 import capstone.capstone01.domain.photorank.domain.PhotoRank;
 import capstone.capstone01.domain.photorank.dto.request.PhotoRankCreateRequestDto;
+import capstone.capstone01.domain.photorank.dto.response.PhotoRankResponseDto;
 import capstone.capstone01.domain.storage.domain.FileSaveInfo;
+import capstone.capstone01.domain.storage.dto.response.FileResponseDto;
 
 public class PhotoRankConverter {
 
@@ -16,4 +18,18 @@ public class PhotoRankConverter {
                 .build();
     }
 
+    public static PhotoRankResponseDto toPhotoRankResponseDto(PhotoRank photoRank) {
+        FileResponseDto fileResponseDto = FileResponseDto.builder()
+                .fileUrl(photoRank.getFileSaveInfo().getFileUrl())
+                .fileName(photoRank.getFileSaveInfo().getOriginFileName())
+                .extension(photoRank.getFileSaveInfo().getExtension())
+                .build();
+
+        return PhotoRankResponseDto.builder()
+                .id(photoRank.getId())
+                .appearanceCount(photoRank.getAppearanceCount())
+                .selectedCount(photoRank.getSelectedCount())
+                .fileResponse(fileResponseDto)
+                .build();
+    }
 }
