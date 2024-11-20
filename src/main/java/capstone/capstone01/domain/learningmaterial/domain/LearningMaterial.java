@@ -38,6 +38,9 @@ public class LearningMaterial extends BaseEntity {
     @Column(name = "prettyManner", nullable = false)
     private String prettyManner;
 
+    @Column(name="keyword", nullable = false)
+    private String keyword;
+
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "learningMaterialId")
     @Builder.Default

@@ -54,6 +54,8 @@ public class SecurityConfig {
                         .requestMatchers("/", "/api/user/signUp", "/api/user/login", "/api/user/check-duplicate/**", "/api/post/top")
                         .permitAll()
                         .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll() // 프리플라이트 요청 항상 허용
+                        .requestMatchers(HttpMethod.PUT, "/api/photoRank/updateCounts").permitAll() // Allow updatePhotoRankCounts without authentication
+                        .requestMatchers(HttpMethod.GET, "/api/photoRank").permitAll() // Allow getPhotoRanks without authentication
                         .anyRequest().authenticated())
                 .exceptionHandling(exception -> exception
                         .accessDeniedHandler(accessDeniedHandler) // 403 에러 처리
@@ -79,4 +81,5 @@ public class SecurityConfig {
         source.registerCorsConfiguration("/api/**", config);
         return new CorsFilter(source);
     }
+
 }

@@ -35,6 +35,12 @@ public enum FileCategory {
             10,
             List.of("jpg", "jpeg","jfif", "png", "gif", "bmp")
     ),
+    PHOTO_RANK(
+            "photo_rank",
+            30 * 1024 * 1024L, // 30MB
+            30,
+            List.of("jpg", "jpeg","jfif", "png", "gif", "bmp","avif","webp")
+    ),
     ETC(
             "etc",
             20 * 1024 * 1024L, // 20MB

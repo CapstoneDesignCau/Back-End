@@ -42,6 +42,9 @@ public enum ErrorStatus implements BaseErrorCode {
     //이미지 평가 관련 에러
     IMAGE_EVALUATION_NOT_FOUND(HttpStatus.BAD_REQUEST, "IMAGE_EVALUATION_4001", "해당하는 사진평가가 없거나, 평가를 확인할 권한이 없습니다."),
 
+    //사진 랭크 관련 에러
+    PHOTO_RANK_NOT_FOUND(HttpStatus.BAD_REQUEST, "PHOTO_RANK_4001", "해당하는 사진이 존재하지 않습니다."),
+
     //좋아요 관련 에러
     POST_ALREADY_LIKE(HttpStatus.BAD_REQUEST, "LIKE_4001", "해당하는 게시글은 이미 좋아요인 상태입니다."),
     POST_LIKE_ALREADY_DELETED(HttpStatus.BAD_REQUEST, "LIKE_4002", "해당하는 게시글은 이미 좋아요가 취소 된 상태입니다."),

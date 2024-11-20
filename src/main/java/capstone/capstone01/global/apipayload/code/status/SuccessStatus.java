@@ -34,6 +34,9 @@ public enum SuccessStatus implements BaseCode {
     MATERIAL_OK(HttpStatus.OK, "Material_2000", "Material 관련 요청이 성공적으로 수행되었습니다."),
     MATERIAL_CREATED(HttpStatus.CREATED, "Material_2001", "Material 관련 요청이 성공적으로 생성되었습니다."),
 
+    PHOTO_RANK_OK(HttpStatus.OK, "PhotoRank_2000", "photoRank 관련 요청이 성공적으로 수행되었습니다."),
+    PHOTO_RANK_CREATED(HttpStatus.CREATED, "PhotoRank_2001", "photoRank 관련 요청이 성공적으로 생성되었습니다."),
+
     ;
 
     private final HttpStatus httpStatus;

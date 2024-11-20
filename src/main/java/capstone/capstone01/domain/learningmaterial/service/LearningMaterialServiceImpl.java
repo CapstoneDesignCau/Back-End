@@ -45,16 +45,12 @@ public class LearningMaterialServiceImpl implements LearningMaterialService {
     @Override
     @PreAuthorize("hasRole('ADMIN')")
     public Long createLearningMaterial(LearningMaterialCreateRequestDto requestDto, List<MultipartFile> imageFiles) {
-        List<Hashtag> hashtags = requestDto.getHashtags().stream()
-                .map(this::getOrCreateHashtag)
-                .collect(Collectors.toList());
+
 
         List<FileSaveInfo> savedImages = imageFiles != null ? storageService.saveFileList(imageFiles, FileCategory.MATERIAL) : List.of();
 
         LearningMaterial learningMaterial = LearningMaterialConverter.toLearningMaterial(requestDto, savedImages);
-        List<LearningHashtag> learningHashtags = LearningMaterialConverter.toLearningHashtags(learningMaterial, hashtags);
 
-        learningMaterial.setLearningHashtags(learningHashtags);
         learningMaterialRepository.save(learningMaterial);
 
         return learningMaterial.getId();

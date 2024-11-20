@@ -7,6 +7,10 @@ import capstone.capstone01.global.apipayload.CustomApiResponse;
 import capstone.capstone01.global.apipayload.code.status.SuccessStatus;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -26,15 +30,15 @@ public class ImageEvaluationController {
     @Operation(summary = "이미지 리스트들 평가 생성", description = "이미지 리스트들 평가 생성 API")
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping(value = "", consumes = "multipart/form-data")
-    public CustomApiResponse<List<Long>> createImageEvaluations(
+    public CustomApiResponse<List<ImageEvaluationSummaryDto>> createImageEvaluations(
             @RequestParam("images") List<MultipartFile> imageFiles
     ) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String email = authentication.getName();
 
-        List<Long> imageEvaluationIds = imageEvaluationService.createImageEvaluations(email, imageFiles);
+        List<ImageEvaluationSummaryDto> imageEvaluationSummaries = imageEvaluationService.createImageEvaluations(email, imageFiles);
 
-        return CustomApiResponse.of(SuccessStatus.IMAGE_EVALUATION_CREATED, imageEvaluationIds);
+        return CustomApiResponse.of(SuccessStatus.IMAGE_EVALUATION_CREATED, imageEvaluationSummaries);
     }
 
     @Operation(summary = "특정 이미지 평가 조회", description = "특정 이미지 평가 조회 API")
@@ -46,6 +50,17 @@ public class ImageEvaluationController {
 
         ImageEvaluationResponseDto evaluation = imageEvaluationService.getImageEvaluation(email, id);
         return CustomApiResponse.of(SuccessStatus.IMAGE_EVALUATION_OK, evaluation);
+    }
+
+    @Operation(summary = "오늘 올린 이미지 평가 조회", description = "오늘 올린 평가 사진 최대 5개 조회 API")
+    @ResponseStatus(HttpStatus.OK)
+    @GetMapping("/list/today")
+    public CustomApiResponse<List<ImageEvaluationSummaryDto>> getTodayImageEvaluations() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String email = authentication.getName();
+
+        List<ImageEvaluationSummaryDto> todayEvaluations = imageEvaluationService.getTodayImageEvaluations(email);
+        return CustomApiResponse.of(SuccessStatus.IMAGE_EVALUATION_OK, todayEvaluations);
     }
 
     @Operation(summary = "최근 5개의 이미지 평가 조회", description = "가장 최근에 생성된 본인의 5개의 이미지 평가 조회 API")
@@ -68,6 +83,19 @@ public class ImageEvaluationController {
 
         List<ImageEvaluationSummaryDto> evaluations = imageEvaluationService.getAllImageEvaluations(email);
         return CustomApiResponse.of(SuccessStatus.IMAGE_EVALUATION_OK, evaluations);
+    }
+
+    @Operation(summary = "내가 평가를 요청한 이미지 목록 조회", description = "내가 평가를 요청한 이미지 목록 조회 API")
+    @ResponseStatus(value = HttpStatus.OK)
+    @GetMapping("/list")
+    public CustomApiResponse<Page<ImageEvaluationSummaryDto>> getUploadedImages(
+            @PageableDefault(sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable
+    ) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String email = authentication.getName();
+
+        Page<ImageEvaluationSummaryDto> images = imageEvaluationService.getUploadedImages(email, pageable);
+        return CustomApiResponse.of(SuccessStatus.IMAGE_EVALUATION_OK, images);
     }
 
 }
