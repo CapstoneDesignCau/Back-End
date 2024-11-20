@@ -5,7 +5,6 @@ import capstone.capstone01.domain.storage.dto.response.FileResponseDto;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Builder;
 import lombok.Getter;
-import org.springframework.data.domain.Page;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -49,5 +48,8 @@ public class PostResponseDto {
 
     @Schema(description = "댓글 목록")
     private List<CommentResponseDto> comments;
+
+    @Schema(description = "사용자가 좋아요를 눌렀는지 여부", example = "true")
+    private Boolean isLikedByUser;
 
 }

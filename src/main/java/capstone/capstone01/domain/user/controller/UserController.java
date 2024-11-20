@@ -1,7 +1,10 @@
 package capstone.capstone01.domain.user.controller;
 
 import capstone.capstone01.domain.user.domain.enums.UserRole;
-import capstone.capstone01.domain.user.dto.request.*;
+import capstone.capstone01.domain.user.dto.request.LoginRequestDto;
+import capstone.capstone01.domain.user.dto.request.NicknameUpdateRequestDto;
+import capstone.capstone01.domain.user.dto.request.PasswordUpdateRequestDto;
+import capstone.capstone01.domain.user.dto.request.UserSignUpRequestDto;
 import capstone.capstone01.domain.user.dto.response.LoginResponseDto;
 import capstone.capstone01.domain.user.dto.response.UserInfoResponseDto;
 import capstone.capstone01.domain.user.service.UserService;
@@ -11,7 +14,6 @@ import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
@@ -145,6 +147,17 @@ public class UserController {
 
         String profileImageUrl = userService.getProfileImageUrl(email);
         return CustomApiResponse.of(SuccessStatus.USER_OK, profileImageUrl);
+    }
+
+    @Operation(summary = "닉네임 조회", description = "사용자 닉네임 조회 API")
+    @ResponseStatus(value = HttpStatus.OK)
+    @GetMapping("/nickname")
+    public CustomApiResponse<String> getNickname() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String email = authentication.getName();
+
+        String nickname = userService.getNickname(email);
+        return CustomApiResponse.of(SuccessStatus.USER_OK, nickname);
     }
 
 }

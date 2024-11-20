@@ -20,16 +20,16 @@ public class CommentConverter {
                 .build();
     }
 
-    public static CommentResponseDto toCommentResponseDto(Comment comment) {
+    public static CommentResponseDto toCommentResponseDto(Comment comment, boolean isLikedByUser) {
         return CommentResponseDto.builder()
                 .id(comment.getId())
                 .userProfileUrl(comment.getWriter().getProfileImage() != null ? comment.getWriter().getProfileImage().getFileUrl() : DEFAULT_PROFILE_IMAGE_URL)
-                .writerNickname((comment.getWriter().getNickname()))
+                .writerNickname(comment.getWriter().getNickname())
                 .content(comment.getContent())
                 .createdAt(comment.getCreatedAt())
                 .likeCount(comment.getLikeCount())
                 .isDeleted(comment.getIsDeleted())
+                .isLikedByUser(isLikedByUser)
                 .build();
     }
-
 }

@@ -37,7 +37,7 @@ public class Post extends BaseEntity {
     @Builder.Default
     private Boolean isOpen = true;
 
-    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "post")
     @Builder.Default
     private List<Comment> comments = new ArrayList<>();
 
@@ -69,12 +69,12 @@ public class Post extends BaseEntity {
     public void addComment(Comment comment) {
         comments.add(comment);
         comment.setPost(this);
-        this.commentCount = comments.size();
+        this.commentCount +=1;
     }
 
     public void removeComment(Comment comment) {
         comments.remove(comment);
-        this.commentCount = comments.size();
+        this.commentCount -= 1;
     }
 
     public void incrementLikeCount() {
