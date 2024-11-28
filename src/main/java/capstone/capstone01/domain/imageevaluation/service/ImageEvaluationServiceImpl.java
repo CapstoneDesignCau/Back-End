@@ -3,6 +3,7 @@ package capstone.capstone01.domain.imageevaluation.service;
 import capstone.capstone01.domain.imageevaluation.domain.ImageEvaluation;
 import capstone.capstone01.domain.imageevaluation.domain.repository.ImageEvaluationRepository;
 import capstone.capstone01.domain.imageevaluation.dto.response.ImageEvaluationResponseDto;
+import capstone.capstone01.domain.imageevaluation.dto.response.ImageEvaluationStatsDto;
 import capstone.capstone01.domain.imageevaluation.dto.response.ImageEvaluationSummaryDto;
 import capstone.capstone01.domain.storage.domain.FileSaveInfo;
 import capstone.capstone01.domain.storage.domain.enums.FileCategory;
@@ -128,5 +129,22 @@ public class ImageEvaluationServiceImpl implements ImageEvaluationService {
 
         return evaluations.map(ImageEvaluationConverter::toImageEvaluationSummaryDto);
     }
-    
+
+    @Override
+    @Transactional(readOnly = true)
+    public ImageEvaluationStatsDto getUserImageEvaluationStats(String email) {
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new UserException(ErrorStatus.USER_NOT_FOUND));
+
+        List<ImageEvaluation> recentEvaluations = imageEvaluationRepository.findByUserOrderByCreatedAtDesc(user, PageRequest.of(0, 5));
+        Double averageScore = imageEvaluationRepository.findAverageScoreByUser(user);
+
+        List<Integer> recentScores = recentEvaluations.stream()
+                .map(ImageEvaluation::getScore)
+                .collect(Collectors.toList());
+
+        return ImageEvaluationConverter.toImageEvaluationStatsDto(recentScores, averageScore);
+    }
+
+
 }

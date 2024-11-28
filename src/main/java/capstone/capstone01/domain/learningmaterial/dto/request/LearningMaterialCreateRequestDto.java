@@ -1,13 +1,11 @@
 package capstone.capstone01.domain.learningmaterial.dto.request;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import io.swagger.v3.oas.annotations.media.Schema;
-
-import java.util.List;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Getter
 @Builder
@@ -34,7 +32,5 @@ public class LearningMaterialCreateRequestDto {
     @NotBlank(message = "학습자료 관련 키워드를 입력해주세요.")
     @Schema(description = "사진 예쁘게 찍는 방법", example = "사진 예쁘게 찍는 방법")
     private String keyword;
-
-
 
 }

@@ -1,6 +1,7 @@
 package capstone.capstone01.domain.imageevaluation.controller;
 
 import capstone.capstone01.domain.imageevaluation.dto.response.ImageEvaluationResponseDto;
+import capstone.capstone01.domain.imageevaluation.dto.response.ImageEvaluationStatsDto;
 import capstone.capstone01.domain.imageevaluation.dto.response.ImageEvaluationSummaryDto;
 import capstone.capstone01.domain.imageevaluation.service.ImageEvaluationService;
 import capstone.capstone01.global.apipayload.CustomApiResponse;
@@ -96,6 +97,17 @@ public class ImageEvaluationController {
 
         Page<ImageEvaluationSummaryDto> images = imageEvaluationService.getUploadedImages(email, pageable);
         return CustomApiResponse.of(SuccessStatus.IMAGE_EVALUATION_OK, images);
+    }
+
+    @Operation(summary = "로그인 한 유저의 최근 5개의 이미지 점수와 평균 점수 반환", description = "로그인 한 유저의 최근 5개의 이미지 점수와 평균 점수 반환 API")
+    @ResponseStatus(HttpStatus.OK)
+    @GetMapping("/stats")
+    public CustomApiResponse<ImageEvaluationStatsDto> getUserImageEvaluationStats() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String email = authentication.getName();
+
+        ImageEvaluationStatsDto stats = imageEvaluationService.getUserImageEvaluationStats(email);
+        return CustomApiResponse.of(SuccessStatus.IMAGE_EVALUATION_OK, stats);
     }
 
 }
