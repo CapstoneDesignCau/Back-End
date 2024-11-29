@@ -54,8 +54,9 @@ public class ImageEvaluationServiceImpl implements ImageEvaluationService {
         imageEvaluationRepository.saveAll(imageEvaluations);
 
         // 효율을 위해 비동기적으로 이미지 평가를 수행
-        for (int i = 0; i < imageFiles.size(); i++) {
-            asyncImageEvaluationService.processImageEvaluationAsync(imageEvaluations.get(i), imageFiles.get(i));
+        for (int i = 0; i < savedFiles.size(); i++) {
+            String imageUrl = savedFiles.get(i).getFileUrl(); // FileSaveInfo 객체에서 URL을 가져옴
+            asyncImageEvaluationService.processImageEvaluationAsync(imageEvaluations.get(i), imageUrl);
         }
 
         log.info("Image Evaluation Created Successfully");

@@ -18,7 +18,7 @@ public class Feedback extends BaseEntity {
     @Column(name = "feedbackId")
     private Long id;
 
-    @Column(name = "content", nullable = false)
+    @Column(name = "content",length = 300, nullable = false)
     private String content;
 
     @ManyToOne

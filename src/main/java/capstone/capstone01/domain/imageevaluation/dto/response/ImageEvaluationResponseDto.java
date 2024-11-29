@@ -33,4 +33,5 @@ public class ImageEvaluationResponseDto {
 
     @Schema(description = "사진 평가 관련 더보기 정보", example = "얼굴 명도:132, 등신 비율: 7.8 ~")
     private String moreInfo;
+
 }
