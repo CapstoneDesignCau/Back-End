@@ -43,6 +43,10 @@ public class ImageEvaluation extends BaseEntity {
     @JoinColumn(name = "evaluationImageId", nullable = false)
     private FileSaveInfo evaluationImage;
 
+    @Setter
+    @Column(name = "moreInfo", columnDefinition = "TEXT")
+    private String moreInfo;
+
     public void addFeedback(Feedback feedback) {
         feedbacks.add(feedback);
         feedback.setImageEvaluation(this);

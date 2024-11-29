@@ -1,38 +1,27 @@
-package capstone.capstone01.domain.ai.service;
-
-import capstone.capstone01.domain.ai.dto.response.EvaluateResultResponseDto;
-import capstone.capstone01.domain.ai.dto.response.PartScoreDto;
-import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
-
-import java.util.List;
-
-@Service
-public class AIModelServiceMock implements AIModelService {
-    // 동작 확인용 Mock Class
-
-    @Override
-    public EvaluateResultResponseDto evaluateImage(Long imageEvaluationId, MultipartFile imageFile) {
-
-        PartScoreDto partScore1 = PartScoreDto.builder()
-                .score(20)
-                .reason("사진의 구도가 좋습니다.")
-                .build();
-
-        PartScoreDto partScore2 = PartScoreDto.builder()
-                .score(15)
-                .reason("색감이 좋습니다.")
-                .build();
-
-        PartScoreDto partScore3 = PartScoreDto.builder()
-                .score(10)
-                .reason("조명이 좋습니다.")
-                .build();
-
-        return EvaluateResultResponseDto.builder()
-                .imageEvaluationId(imageEvaluationId)
-                .totalScore(45)
-                .partScores(List.of(partScore1, partScore2, partScore3))
-                .build();
-    }
-}
+//package capstone.capstone01.domain.ai.service;
+//
+//
+//import capstone.capstone01.domain.ai.dto.response.EvaluateResultResponseDto;
+//import capstone.capstone01.domain.ai.dto.response.FeedbackDto;
+//import org.springframework.stereotype.Service;
+//
+//import java.util.List;
+//
+//@Service
+//public class AIModelServiceMock implements AIModelService {
+//
+//    @Override
+//    public EvaluateResultResponseDto evaluateImage(Long imageEvaluationId, String imageUrl) {
+//        // Mock response
+//        EvaluateResultResponseDto response = EvaluateResultResponseDto.builder()
+//                .totalScore(90)
+//                .feedback(List.of(
+//                        FeedbackDto.builder().id(1).message("아웃포커싱 효과를 활용하면 인물을 더 돋보이게 할 수 있습니다.").build(),
+//                        FeedbackDto.builder().id(2).message("카메라를 아래쪽에서 찍어 보세요.").build(),
+//                        FeedbackDto.builder().id(3).message("사진이 너무 어둡습니다. 명도를 올려보세요.").build()
+//                ))
+//                .moreInfo("전신 세로 길이: 25 pixels, 얼굴 세로 길이: 10 pixels, 등신 비율: 7 등신")
+//                .build();
+//        return response;
+//    }
+//}
