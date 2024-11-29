@@ -184,6 +184,13 @@ public class UserServiceImpl implements UserService {
         return profileImage != null ? profileImage.getFileUrl() : StaticValue.DEFAULT_PROFILE_IMAGE_URL;
     }
 
+    @Transactional(readOnly = true)
+    public String getNickname(String email) {
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new UserException(ErrorStatus.USER_NOT_FOUND));
+        return user.getNickname();
+    }
+
     private void validateUserCreation(String email, String nickname) {
         if (isEmailDuplicate(email)) {
             throw new UserException(ErrorStatus.USER_ALREADY_EXISTS);

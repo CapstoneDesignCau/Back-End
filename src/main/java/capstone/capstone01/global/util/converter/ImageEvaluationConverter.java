@@ -2,10 +2,12 @@ package capstone.capstone01.global.util.converter;
 
 import capstone.capstone01.domain.imageevaluation.domain.ImageEvaluation;
 import capstone.capstone01.domain.imageevaluation.dto.response.ImageEvaluationResponseDto;
+import capstone.capstone01.domain.imageevaluation.dto.response.ImageEvaluationStatsDto;
 import capstone.capstone01.domain.imageevaluation.dto.response.ImageEvaluationSummaryDto;
 import capstone.capstone01.domain.storage.domain.FileSaveInfo;
 import capstone.capstone01.domain.user.domain.User;
 
+import java.util.List;
 import java.util.stream.Collectors;
 
 public class ImageEvaluationConverter {
@@ -40,4 +42,12 @@ public class ImageEvaluationConverter {
                 .isFinish(evaluation.getIsFinish())
                 .build();
     }
+
+    public static ImageEvaluationStatsDto toImageEvaluationStatsDto(List<Integer> recentScores, Double averageScore) {
+        return ImageEvaluationStatsDto.builder()
+                .recentScores(recentScores)
+                .averageScore(averageScore)
+                .build();
+    }
+
 }

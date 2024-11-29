@@ -1,6 +1,5 @@
 package capstone.capstone01.global.util.converter;
 
-import capstone.capstone01.domain.comment.domain.Comment;
 import capstone.capstone01.domain.comment.dto.response.CommentResponseDto;
 import capstone.capstone01.domain.post.domain.Post;
 import capstone.capstone01.domain.post.dto.request.PostCreateRequestDto;
@@ -10,7 +9,6 @@ import capstone.capstone01.domain.storage.domain.FileSaveInfo;
 import capstone.capstone01.domain.storage.dto.response.FileResponseDto;
 import capstone.capstone01.domain.user.domain.User;
 import capstone.capstone01.global.util.value.StaticValue;
-import org.springframework.data.domain.Page;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -27,11 +25,7 @@ public class PostConverter {
                 .build();
     }
 
-    public static PostResponseDto toPostResponseDto(Post post) {
-        List<CommentResponseDto> commentResponseDto = post.getComments().stream()
-                .map(CommentConverter::toCommentResponseDto)
-                .collect(Collectors.toList());
-
+    public static PostResponseDto toPostResponseDto(Post post, List<CommentResponseDto> commentResponseDtoList, boolean isLikedByUser) {
         List<FileResponseDto> fileResponseDto = post.getFiles().stream()
                 .map(StorageConverter::toFileResponseDto)
                 .collect(Collectors.toList());
@@ -47,8 +41,9 @@ public class PostConverter {
                 .createdAt(post.getCreatedAt())
                 .likeCount(post.getLikeCount())
                 .commentCount(post.getCommentCount())
-                .comments(commentResponseDto)
+                .comments(commentResponseDtoList)
                 .files(fileResponseDto)
+                .isLikedByUser(isLikedByUser)
                 .build();
     }
 

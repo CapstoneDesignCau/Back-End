@@ -1,6 +1,7 @@
 package capstone.capstone01.domain.imageevaluation.service;
 
 import capstone.capstone01.domain.imageevaluation.dto.response.ImageEvaluationResponseDto;
+import capstone.capstone01.domain.imageevaluation.dto.response.ImageEvaluationStatsDto;
 import capstone.capstone01.domain.imageevaluation.dto.response.ImageEvaluationSummaryDto;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -20,5 +21,7 @@ public interface ImageEvaluationService {
     List<ImageEvaluationSummaryDto> getTodayImageEvaluations(String email);
 
     Page<ImageEvaluationSummaryDto> getUploadedImages(String email, Pageable pageable);
+
+    ImageEvaluationStatsDto getUserImageEvaluationStats(String email);
 
 }

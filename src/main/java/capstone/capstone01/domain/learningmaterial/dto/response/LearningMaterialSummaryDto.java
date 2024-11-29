@@ -17,4 +17,7 @@ public class LearningMaterialSummaryDto {
 
     @Schema(description = "이미지 정보")
     private FileResponseDto image;
+
+    @Schema(description = "삭제 여부", example = "false")
+    private Boolean isDeleted;
 }

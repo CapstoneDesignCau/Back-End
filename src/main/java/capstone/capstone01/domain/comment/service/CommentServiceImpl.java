@@ -4,6 +4,7 @@ import capstone.capstone01.domain.comment.domain.Comment;
 import capstone.capstone01.domain.comment.domain.repository.CommentRepository;
 import capstone.capstone01.domain.comment.dto.request.CommentCreateRequestDto;
 import capstone.capstone01.domain.comment.dto.response.CommentResponseDto;
+import capstone.capstone01.domain.like.domain.repository.CommentLikeRepository;
 import capstone.capstone01.domain.post.domain.Post;
 import capstone.capstone01.domain.post.domain.repository.PostRepository;
 import capstone.capstone01.domain.user.domain.User;
@@ -24,6 +25,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class CommentServiceImpl implements CommentService {
 
     private final CommentRepository commentRepository;
+    private final CommentLikeRepository commentLikeRepository;
     private final UserRepository userRepository;
     private final PostRepository postRepository;
 
@@ -39,12 +41,16 @@ public class CommentServiceImpl implements CommentService {
         return comment.getId();
     }
 
-    @Override
-    @Transactional(readOnly = true)
-    public CommentResponseDto getComment(Long id) {
-        Comment comment = findCommentById(id);
 
-        return CommentConverter.toCommentResponseDto(comment);
+    @Transactional(readOnly = true)
+    public CommentResponseDto getComment(Long id, String userEmail) {
+        Comment comment = findCommentById(id);
+        User user = userRepository.findByEmail(userEmail)
+                .orElseThrow(() -> new UserException(ErrorStatus.USER_NOT_FOUND));
+
+        boolean isLikedByUser = commentLikeRepository.existsByCommentAndUserAndIsDeletedFalse(comment, user);
+
+        return CommentConverter.toCommentResponseDto(comment, isLikedByUser);
     }
 
     @Override

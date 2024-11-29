@@ -34,4 +34,6 @@ public interface UserService {
     UserInfoResponseDto getUserInfo(String email);
 
     String getProfileImageUrl(String email);
+
+    String getNickname(String email);
 }

@@ -7,7 +7,7 @@ public interface CommentService {
 
     Long createComment(String email, CommentCreateRequestDto commentCreateRequestDto);
 
-    CommentResponseDto getComment(Long id);
+    CommentResponseDto getComment(Long id, String userEmail);
 
     void deleteComment(String email, Long id);
 

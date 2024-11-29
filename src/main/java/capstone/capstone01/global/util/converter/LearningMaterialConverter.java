@@ -59,6 +59,7 @@ public class LearningMaterialConverter {
                 .id(learningMaterial.getId())
                 .title(learningMaterial.getTitle())
                 .image(image)
+                .isDeleted(learningMaterial.getIsDeleted())
                 .build();
     }
 

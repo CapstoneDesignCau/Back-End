@@ -31,7 +31,7 @@ public class LearningMaterialController {
     @PostMapping(value = "", consumes = {"multipart/form-data"})
     public CustomApiResponse<Long> createLearningMaterial(
             @Valid @RequestPart("learningMaterial") LearningMaterialCreateRequestDto requestDto,
-            @RequestPart(value = "images", required = false) List<MultipartFile> imageFiles
+            @RequestPart(value = "images", required = true) List<MultipartFile> imageFiles
     ) {
         Long materialId = learningMaterialService.createLearningMaterial(requestDto, imageFiles);
         return CustomApiResponse.of(SuccessStatus.MATERIAL_CREATED, materialId);
@@ -73,4 +73,14 @@ public class LearningMaterialController {
         List<LearningMaterialSummaryDto> materials = learningMaterialService.getLearningMaterials();
         return CustomApiResponse.of(SuccessStatus.MATERIAL_OK, materials);
     }
+
+    @Operation(summary = "모든 학습 자료 목록 조회", description = "모든 학습 자료 목록 조회 API")
+    @PreAuthorize("hasRole('ADMIN')")
+    @ResponseStatus(HttpStatus.OK)
+    @GetMapping("/all")
+    public CustomApiResponse<List<LearningMaterialSummaryDto>> getAllLearningMaterials() {
+        List<LearningMaterialSummaryDto> materials = learningMaterialService.getAllLearningMaterials();
+        return CustomApiResponse.of(SuccessStatus.MATERIAL_OK, materials);
+    }
+
 }

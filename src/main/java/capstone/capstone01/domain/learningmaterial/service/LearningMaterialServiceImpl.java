@@ -2,7 +2,6 @@ package capstone.capstone01.domain.learningmaterial.service;
 
 import capstone.capstone01.domain.hashtag.domain.Hashtag;
 import capstone.capstone01.domain.hashtag.domain.repository.HashtagRepository;
-import capstone.capstone01.domain.learnighashtag.domain.LearningHashtag;
 import capstone.capstone01.domain.learningmaterial.domain.LearningMaterial;
 import capstone.capstone01.domain.learningmaterial.domain.repository.LearningMaterialRepository;
 import capstone.capstone01.domain.learningmaterial.dto.request.LearningMaterialCreateRequestDto;
@@ -12,7 +11,6 @@ import capstone.capstone01.domain.storage.domain.FileSaveInfo;
 import capstone.capstone01.domain.storage.domain.enums.FileCategory;
 import capstone.capstone01.domain.storage.service.StorageService;
 import capstone.capstone01.domain.user.domain.User;
-import capstone.capstone01.domain.user.domain.enums.UserRole;
 import capstone.capstone01.domain.user.domain.repository.UserRepository;
 import capstone.capstone01.global.apipayload.code.status.ErrorStatus;
 import capstone.capstone01.global.exception.specific.LearningMaterialException;
@@ -90,6 +88,18 @@ public class LearningMaterialServiceImpl implements LearningMaterialService {
 
         return LearningMaterialConverter.toLearningMaterialResponseDto(learningMaterial);
     }
+
+    @Override
+    @Transactional(readOnly = true)
+    @PreAuthorize("hasRole('ADMIN')")
+    public List<LearningMaterialSummaryDto> getAllLearningMaterials() {
+        List<LearningMaterial> materials = learningMaterialRepository.findAll();
+        return materials.stream()
+                .map(LearningMaterialConverter::toLearningMaterialSummaryDto)
+                .collect(Collectors.toList());
+    }
+
+
 
     @Override
     @Transactional(readOnly = true)

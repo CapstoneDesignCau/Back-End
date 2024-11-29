@@ -1,5 +1,6 @@
 package capstone.capstone01.domain.comment.dto.response;
 
+
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Builder;
 import lombok.Getter;
@@ -30,5 +31,8 @@ public class CommentResponseDto {
 
     @Schema(description = "작성자 프로필 사진 URL", example ="http://example/123")
     private String userProfileUrl;
+
+    @Schema(description = "사용자가 좋아요를 눌렀는지 여부", example = "true")
+    private Boolean isLikedByUser;
 
 }

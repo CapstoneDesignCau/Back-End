@@ -1,5 +1,8 @@
 package capstone.capstone01.domain.post.service;
 
+import capstone.capstone01.domain.comment.dto.response.CommentResponseDto;
+import capstone.capstone01.domain.like.domain.repository.CommentLikeRepository;
+import capstone.capstone01.domain.like.domain.repository.PostLikeRepository;
 import capstone.capstone01.domain.post.domain.Post;
 import capstone.capstone01.domain.post.domain.repository.PostRepository;
 import capstone.capstone01.domain.post.dto.request.PostCreateRequestDto;
@@ -14,6 +17,7 @@ import capstone.capstone01.domain.user.domain.repository.UserRepository;
 import capstone.capstone01.global.apipayload.code.status.ErrorStatus;
 import capstone.capstone01.global.exception.specific.PostException;
 import capstone.capstone01.global.exception.specific.UserException;
+import capstone.capstone01.global.util.converter.CommentConverter;
 import capstone.capstone01.global.util.converter.PostConverter;
 import capstone.capstone01.global.util.value.StaticValue;
 import lombok.RequiredArgsConstructor;
@@ -38,6 +42,8 @@ public class PostServiceImpl implements PostService {
     private final PostRepository postRepository;
     private final UserRepository userRepository;
     private final StorageService storageService;
+    private final PostLikeRepository postLikeRepository;
+    private final CommentLikeRepository commentLikeRepository;
 
     @Override
     public Long createPost(String email, PostCreateRequestDto postCreateRequestDto, List<MultipartFile> files) {
@@ -54,14 +60,24 @@ public class PostServiceImpl implements PostService {
         return post.getId();
     }
 
-    @Override
+
     @Transactional(readOnly = true)
     public PostResponseDto getPost(String email, Long id) {
         User user = findUserByEmail(email);
         Post post = findImagePostById(id);
 
         if (user.getRole() == UserRole.ADMIN || post.getIsOpen() || post.getWriter().getEmail().equals(email)) {
-            return PostConverter.toPostResponseDto(post);
+            boolean isLikedByUser = postLikeRepository.existsByPostAndUserAndIsDeletedFalse(post, user);
+
+            List<CommentResponseDto> commentResponseDtoList = post.getComments().stream()
+                    .map(comment -> {
+                        boolean isCommentLikedByUser = commentLikeRepository.existsByCommentAndUserAndIsDeletedFalse(comment, user);
+                        return CommentConverter.toCommentResponseDto(comment, isCommentLikedByUser);
+                    })
+                    .collect(Collectors.toList());
+
+            return PostConverter.toPostResponseDto(post, commentResponseDtoList, isLikedByUser);
+
         } else {
             throw new PostException(ErrorStatus.POST_READ_NOT_ALLOWED);
         }

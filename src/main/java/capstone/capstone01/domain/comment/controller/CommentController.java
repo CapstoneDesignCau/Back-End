@@ -39,7 +39,7 @@ public class CommentController {
     public CustomApiResponse<CommentResponseDto> getComment(@PathVariable("comment-Id") Long id) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String email = authentication.getName();
-        CommentResponseDto commentResponseDto = commentService.getComment(id);
+        CommentResponseDto commentResponseDto = commentService.getComment(id, email);
         return CustomApiResponse.of(SuccessStatus.COMMENT_OK, commentResponseDto);
     }
 
