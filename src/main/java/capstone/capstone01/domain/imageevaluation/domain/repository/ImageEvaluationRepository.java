@@ -18,7 +18,7 @@ public interface ImageEvaluationRepository extends JpaRepository<ImageEvaluation
 
     Optional<ImageEvaluation> findByIdAndUser(Long id, User user);
 
-    List<ImageEvaluation> findByUser(User user);
+    List<ImageEvaluation> findByUserOrderByCreatedAtDesc(User user);
 
     List<ImageEvaluation> findByUserAndCreatedAtBetweenOrderByCreatedAtDesc(User user, LocalDateTime start, LocalDateTime end, Pageable pageable);
 

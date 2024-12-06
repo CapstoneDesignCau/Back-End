@@ -36,6 +36,9 @@ public class AsyncImageEvaluationServiceImpl implements AsyncImageEvaluationServ
         // 이미지 평가 Entity 에 점수 및 피드백 업데이트
         imageEvaluation.setScore(evaluationResult.getTotalScore());
 
+        //정보 추가
+        imageEvaluation.setMoreInfo(evaluationResult.getMoreInfo());
+
         for (List<Object> feedbackData : evaluationResult.getFeedback()) {
             int feedbackId = (int) feedbackData.get(0);
             String feedbackMessage = (String) feedbackData.get(1);

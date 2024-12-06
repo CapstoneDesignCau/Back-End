@@ -30,6 +30,7 @@ public class ImageEvaluationConverter {
                         .map(FeedbackConverter::toFeedbackResponseDto)
                         .collect(Collectors.toList()))
                 .evaluationImage(StorageConverter.toFileResponseDto(imageEvaluation.getEvaluationImage()))
+                .moreInfo(imageEvaluation.getMoreInfo())
                 .createdAt(imageEvaluation.getCreatedAt())
                 .build();
     }
