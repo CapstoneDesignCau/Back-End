@@ -18,7 +18,7 @@ public class Comment extends BaseEntity {
     @Column(name = "commentId")
     private Long id;
 
-    @Column(name = "content", nullable = false)
+    @Column(name = "content", nullable = false, columnDefinition = "TEXT")
     private String content;
 
     @ManyToOne(targetEntity = Post.class)

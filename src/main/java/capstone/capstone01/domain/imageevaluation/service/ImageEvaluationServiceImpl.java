@@ -113,7 +113,7 @@ public class ImageEvaluationServiceImpl implements ImageEvaluationService {
         User user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new UserException(ErrorStatus.USER_NOT_FOUND));
 
-        List<ImageEvaluation> evaluations = imageEvaluationRepository.findByUser(user);
+        List<ImageEvaluation> evaluations = imageEvaluationRepository.findByUserOrderByCreatedAtDesc(user);
 
         return evaluations.stream()
                 .map(ImageEvaluationConverter::toImageEvaluationSummaryDto)
