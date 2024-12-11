@@ -16,10 +16,16 @@ public class FeedbackConverter {
     }
 
     public static FeedbackResponseDto toFeedbackResponseDto(Feedback feedback) {
+        Long materialId = null;
+        if (feedback.getLearningMaterial() != null) {
+            materialId = feedback.getLearningMaterial().getId();
+        }
+
         return FeedbackResponseDto.builder()
                 .feedbackId(feedback.getId())
                 .content(feedback.getContent())
-                .materialId(feedback.getLearningMaterial().getId())
+                .materialId(materialId)
                 .build();
     }
+    
 }
