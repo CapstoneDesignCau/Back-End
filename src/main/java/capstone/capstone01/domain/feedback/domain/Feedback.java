@@ -18,12 +18,12 @@ public class Feedback extends BaseEntity {
     @Column(name = "feedbackId")
     private Long id;
 
-    @Column(name = "content",length = 300, nullable = false)
+    @Column(name = "content",length = 1000, nullable = false)
     private String content;
 
     @ManyToOne
     @Setter
-    @JoinColumn(name = "learningMaterialId", nullable = false)
+    @JoinColumn(name = "learningMaterialId", nullable = true)
     private LearningMaterial learningMaterial;
 
     @ManyToOne
