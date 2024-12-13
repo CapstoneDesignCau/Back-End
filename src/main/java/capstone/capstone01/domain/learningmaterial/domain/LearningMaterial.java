@@ -29,16 +29,16 @@ public class LearningMaterial extends BaseEntity {
     @Builder.Default
     private Boolean isDeleted = false;
 
-    @Column(name = "referenceInfo", nullable = false)
+    @Column(name = "referenceInfo",length = 3000, nullable = false)
     private String referenceInfo;
 
-    @Column(name = "tips", nullable = false)
+    @Column(name = "tips",length = 3000,  nullable = false)
     private String tips;
 
-    @Column(name = "prettyManner", nullable = false)
+    @Column(name = "prettyManner",length = 3000, nullable = false)
     private String prettyManner;
 
-    @Column(name="keyword", nullable = false)
+    @Column(name="keyword",length = 3000, nullable = false)
     private String keyword;
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
